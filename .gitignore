@@ -1,0 +1,24 @@
+# 비밀값
+.env
+.env.*
+!.env.example
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+.pytest_cache/
+.ruff_cache/
+
+# Node / Next.js
+node_modules/
+.next/
+next-env.d.ts
+*.tsbuildinfo
+
+# 올린 파일 (로컬에서 바로 띄울 때 생김)
+backend/data/
+
+# 기타
+.DS_Store
+*.log

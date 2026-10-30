@@ -1,0 +1,280 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="1080" viewBox="0 0 1600 1080" font-family="'Noto Sans KR', 'Malgun Gothic', 'Apple SD Gothic Neo', sans-serif" style="background:#FAFAF8">
+  <title>믿집 시스템 구조 (현재 설계안)</title>
+  <desc>2026-10-29 기준. AGENTS.md와 ADR 0001에 적힌 구성. 사용자 → Caddy → Next.js·FastAPI → PostgreSQL·Redis·worker, AWS 관리형 서비스와 외부 서비스.</desc>
+  <style>
+    .t-title { font-size: 26px; font-weight: 700; fill: #1B2127; }
+    .t-sub { font-size: 15px; fill: #5A6772; }
+    .g-label { font-size: 15px; font-weight: 700; fill: #33414D; }
+    .b-title { font-size: 16px; font-weight: 700; fill: #1B2127; }
+    .b-text { font-size: 14px; fill: #2B353E; }
+    .b-small { font-size: 13px; fill: #2B353E; }
+    .b-mute { font-size: 12px; fill: #5A6772; }
+    .a-label { font-size: 12px; fill: #4A5762; }
+    .box { fill: #FFFFFF; stroke: #2F3B45; stroke-width: 1.5; }
+    .box-core { fill: #EEF6F2; stroke: #1E6B55; stroke-width: 1.8; }
+    .box-data { fill: #EEF2F8; stroke: #33507A; stroke-width: 1.8; }
+    .box-plan { fill: #FFFFFF; stroke: #5A6772; stroke-width: 1.5; stroke-dasharray: 7 5; }
+    .box-ext { fill: #FFFFFF; stroke: #6B5E45; stroke-width: 1.5; }
+    .ln { fill: none; stroke: #2F3B45; stroke-width: 1.6; }
+    .ln-q { fill: none; stroke: #B45309; stroke-width: 2; }
+    .ln-plan { fill: none; stroke: #6B7785; stroke-width: 1.6; stroke-dasharray: 7 5; }
+    .mk { fill: #2C7A4B; }
+  </style>
+  <defs>
+    <marker id="ah" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="10" markerHeight="10" markerUnits="userSpaceOnUse" orient="auto">
+      <path d="M0,0 L10,5 L0,10 z" fill="#2F3B45"/>
+    </marker>
+    <marker id="ah-q" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="10" markerHeight="10" markerUnits="userSpaceOnUse" orient="auto">
+      <path d="M0,0 L10,5 L0,10 z" fill="#B45309"/>
+    </marker>
+    <marker id="ah-p" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="10" markerHeight="10" markerUnits="userSpaceOnUse" orient="auto">
+      <path d="M0,0 L10,5 L0,10 z" fill="#6B7785"/>
+    </marker>
+  </defs>
+
+  <!-- 배경 -->
+  <rect x="0" y="0" width="1600" height="1080" fill="#FAFAF8"/>
+
+  <!-- 제목 -->
+  <text x="20" y="46" class="t-title">믿집 시스템 구조 (현재 설계안)</text>
+  <text x="20" y="76" class="t-sub">2026-10-29 기준 · AGENTS.md와 ADR 0001(제안)에 적힌 구성 · 1차 범위 도배·목공 · EC2 운영 배포 모습</text>
+
+  <!-- ===== 묶음: 사용자 ===== -->
+  <rect x="20" y="100" width="208" height="420" rx="10" fill="#F1F3F5" stroke="#AEB8C1" stroke-width="1.2"/>
+  <text x="32" y="126" class="g-label">사용자 (브라우저)</text>
+
+  <g class="node">
+    <rect x="32" y="150" width="184" height="106" rx="8" class="box"/>
+    <text x="46" y="176" class="b-title">고객</text>
+    <text x="46" y="200" class="b-text">웹 먼저 · 1280px</text>
+    <text x="46" y="221" class="b-text">그다음 반응형</text>
+    <text x="46" y="242" class="b-text">단지 → 평형 → 공정</text>
+  </g>
+  <g class="node">
+    <rect x="32" y="272" width="184" height="106" rx="8" class="box"/>
+    <text x="46" y="298" class="b-title">업체</text>
+    <text x="46" y="322" class="b-text">대표 · 실측 담당</text>
+    <text x="46" y="343" class="b-text">시공 팀장 (회사 소속)</text>
+    <text x="46" y="364" class="b-text">동·호수는 실측 확정 뒤</text>
+  </g>
+  <g class="node">
+    <rect x="32" y="394" width="184" height="106" rx="8" class="box"/>
+    <text x="46" y="420" class="b-title">운영자</text>
+    <text x="46" y="444" class="b-text">업체 심사 · 분쟁</text>
+    <text x="46" y="465" class="b-text">후기 · 기준 단가</text>
+    <text x="46" y="486" class="b-text">에이전트 실행 기록</text>
+  </g>
+
+  <!-- ===== 묶음: AWS 서울 리전 ===== -->
+  <rect x="250" y="100" width="850" height="900" rx="12" fill="#EEF3F7" stroke="#8193A3" stroke-width="1.2"/>
+  <text x="266" y="126" class="g-label">AWS 서울 리전 (ap-northeast-2)</text>
+
+  <!-- EC2 -->
+  <rect x="266" y="140" width="818" height="570" rx="10" fill="#FFFFFF" stroke="#4F6B82" stroke-width="2"/>
+  <text x="282" y="166" class="g-label">EC2 한 대 · Docker Compose · 밖으로 여는 포트 80·443</text>
+
+  <g class="node">
+    <rect x="286" y="300" width="160" height="130" rx="8" class="box"/>
+    <rect x="430" y="308" width="8" height="8" class="mk"/>
+    <text x="300" y="326" class="b-title">Caddy 2.10</text>
+    <text x="300" y="350" class="b-text">자동 HTTPS</text>
+    <text x="300" y="372" class="b-text">/api/* → api</text>
+    <text x="300" y="394" class="b-text">나머지 → web</text>
+    <text x="300" y="416" class="b-text">80·443만 열림</text>
+  </g>
+
+  <g class="node">
+    <rect x="480" y="180" width="250" height="110" rx="8" class="box"/>
+    <rect x="714" y="188" width="8" height="8" class="mk"/>
+    <text x="494" y="206" class="b-title">web · Next.js 16</text>
+    <text x="494" y="230" class="b-text">고객 · 업체 · 운영 화면만</text>
+    <text x="494" y="251" class="b-text">App Router · 서버 렌더링</text>
+    <text x="494" y="272" class="b-text">DB · LLM · 금액 계산 안 함</text>
+  </g>
+
+  <g class="node">
+    <rect x="480" y="340" width="230" height="220" rx="8" class="box-core"/>
+    <rect x="694" y="348" width="8" height="8" class="mk"/>
+    <text x="494" y="368" class="b-title">api · FastAPI</text>
+    <text x="494" y="392" class="b-text">유일한 공개 API (/api/*)</text>
+    <text x="494" y="414" class="b-mute">기능 패키지</text>
+    <text x="494" y="435" class="b-text">request · vendor · quote</text>
+    <text x="494" y="456" class="b-text">visit · schedule · contract</text>
+    <text x="494" y="477" class="b-text">refprice (기준 단가)</text>
+    <text x="494" y="502" class="b-text">calc · 금액·날짜 계산 엔진</text>
+    <text x="494" y="524" class="b-text">권한 검사는 service에서</text>
+  </g>
+
+  <g class="node">
+    <rect x="750" y="400" width="110" height="110" rx="8" class="box-data"/>
+    <rect x="844" y="408" width="8" height="8" class="mk"/>
+    <text x="764" y="426" class="b-title">Redis 8</text>
+    <text x="764" y="450" class="b-text">작업 큐</text>
+    <text x="764" y="471" class="b-text">짧은 캐시</text>
+    <text x="764" y="492" class="b-text">요청 제한</text>
+  </g>
+
+  <g class="node">
+    <rect x="900" y="340" width="168" height="220" rx="8" class="box-core"/>
+    <rect x="1052" y="348" width="8" height="8" class="mk"/>
+    <text x="912" y="368" class="b-title">worker · arq</text>
+    <text x="912" y="392" class="b-text">에이전트 3개</text>
+    <text x="912" y="412" class="b-small">recommend</text>
+    <text x="912" y="431" class="b-small">estimate · schedule</text>
+    <text x="912" y="455" class="b-text">기준 단가 수집</text>
+    <text x="912" y="476" class="b-text">단지 면적 배치</text>
+    <text x="912" y="497" class="b-text">알림 보내기</text>
+    <text x="912" y="524" class="b-mute">저장은 service가 함</text>
+  </g>
+
+  <g class="node">
+    <rect x="480" y="600" width="380" height="90" rx="8" class="box-data"/>
+    <rect x="844" y="608" width="8" height="8" class="mk"/>
+    <text x="494" y="626" class="b-title">PostgreSQL 17</text>
+    <text x="494" y="650" class="b-text">원본 데이터 · 볼륨 db-data</text>
+    <text x="494" y="672" class="b-text">금액 bigint · 견적 스냅숏 JSONB</text>
+  </g>
+
+  <g class="node">
+    <rect x="900" y="600" width="168" height="90" rx="8" class="box"/>
+    <rect x="1052" y="608" width="8" height="8" class="mk"/>
+    <text x="912" y="626" class="b-title">migrate (1회용)</text>
+    <text x="912" y="650" class="b-small">alembic upgrade head</text>
+    <text x="912" y="672" class="b-text">api보다 먼저 실행</text>
+  </g>
+
+  <!-- EC2 안 연결선 -->
+  <path d="M446 318 H462 V235 H478" class="ln" marker-end="url(#ah)"/>
+  <path d="M446 385 H478" class="ln" marker-end="url(#ah)"/>
+  <path d="M605 290 V338" class="ln" marker-end="url(#ah)"/>
+  <text x="597" y="320" class="a-label" text-anchor="end">SSR: api:8000 직접</text>
+  <path d="M710 455 H748" class="ln-q" marker-end="url(#ah-q)"/>
+  <text x="729" y="446" class="a-label" text-anchor="middle">넣기</text>
+  <path d="M860 455 H898" class="ln-q" marker-end="url(#ah-q)"/>
+  <text x="879" y="446" class="a-label" text-anchor="middle">꺼냄</text>
+  <path d="M595 560 V598" class="ln" marker-end="url(#ah)"/>
+  <text x="605" y="584" class="a-label">SQLAlchemy async</text>
+  <path d="M930 560 V580 H815 V598" class="ln" marker-end="url(#ah)"/>
+  <path d="M900 645 H862" class="ln" marker-end="url(#ah)"/>
+
+  <!-- AWS 관리형 -->
+  <rect x="266" y="740" width="818" height="240" rx="10" fill="#FFFFFF" stroke="#4F6B82" stroke-width="1.6" stroke-dasharray="8 6"/>
+
+  <g class="node">
+    <rect x="286" y="790" width="240" height="100" rx="8" class="box-plan"/>
+    <text x="300" y="816" class="b-title">S3 · 파일 (비공개)</text>
+    <text x="300" y="840" class="b-text">사진 · 계약서 PDF</text>
+    <text x="300" y="862" class="b-text">presigned URL로 주고받기</text>
+  </g>
+  <g class="node">
+    <rect x="560" y="790" width="230" height="100" rx="8" class="box-plan"/>
+    <text x="574" y="816" class="b-title">S3 · DB 백업</text>
+    <text x="574" y="840" class="b-text">pg_dump 매일 · 30일 보관</text>
+  </g>
+  <g class="node">
+    <rect x="824" y="790" width="236" height="100" rx="8" class="box-plan"/>
+    <text x="838" y="816" class="b-title">SSM Parameter Store</text>
+    <text x="838" y="840" class="b-text">비밀값: DB 비번 · API 키</text>
+  </g>
+  <text x="282" y="946" class="b-mute">README: DB 백업 방식과 이미지 빌드 위치(EC2 vs CI)는 아직 정하지 않음</text>
+
+  <!-- AWS 관리형 연결선 -->
+  <path d="M480 525 H380 V788" class="ln-plan" marker-end="url(#ah-p)"/>
+  <text x="372" y="600" class="a-label" text-anchor="end">presigned</text>
+  <text x="372" y="616" class="a-label" text-anchor="end">URL 발급</text>
+  <path d="M670 690 V788" class="ln-plan" marker-end="url(#ah-p)"/>
+  <text x="680" y="731" class="a-label">pg_dump 매일</text>
+  <path d="M942 790 V712" class="ln-plan" marker-end="url(#ah-p)"/>
+  <text x="952" y="731" class="a-label">.env 생성 (배포 때)</text>
+  <!-- 묶음 이름은 연결선 위에 그린다 (선이 글자 뒤로 지나가게) -->
+  <rect x="278" y="750" width="254" height="24" fill="#FFFFFF"/>
+  <text x="282" y="766" class="g-label">AWS 관리형 서비스 (권장, 아직 없음)</text>
+
+  <!-- ===== 묶음: 외부 서비스 ===== -->
+  <rect x="1130" y="100" width="450" height="900" rx="12" fill="#F6F4EF" stroke="#9A8F7A" stroke-width="1.2"/>
+  <text x="1146" y="126" class="g-label">외부 서비스</text>
+
+  <g class="node">
+    <rect x="1150" y="150" width="410" height="120" rx="8" class="box-plan"/>
+    <text x="1164" y="176" class="b-title">로그인 · 연락 (권장)</text>
+    <text x="1164" y="200" class="b-text">카카오 로그인 (OAuth), 콜백은 api가 받음</text>
+    <text x="1164" y="222" class="b-text">안심번호 050: 실측 확정 뒤 연결</text>
+    <text x="1164" y="248" class="b-mute">api가 부름</text>
+  </g>
+  <g class="node">
+    <rect x="1150" y="290" width="410" height="110" rx="8" class="box-ext"/>
+    <text x="1164" y="316" class="b-title">LLM 공급자 (미정, R14)</text>
+    <text x="1164" y="340" class="b-text">app/agent/llm.py 한 곳에서만 부름</text>
+    <text x="1164" y="362" class="b-text">LLM_LIVE=false면 스텁 · CI 유료 호출 0회</text>
+    <text x="1164" y="386" class="b-mute">worker의 agent가 부름 · 숫자는 calc 값과 검산</text>
+  </g>
+  <g class="node">
+    <rect x="1150" y="420" width="410" height="200" rx="8" class="box-ext"/>
+    <text x="1164" y="446" class="b-title">공공데이터 API</text>
+    <text x="1164" y="470" class="b-text">건축HUB 건축물대장: 호별 전유·공용 면적 · 하루 1만 건</text>
+    <text x="1164" y="494" class="b-text">K-apt 공동주택 단지 목록 · 기본정보</text>
+    <text x="1164" y="518" class="b-text">도로명주소 juso.go.kr: 주소 → 행정코드</text>
+    <text x="1164" y="542" class="b-text">조달청 가격정보 · 시중노임단가 (반기)</text>
+    <text x="1164" y="566" class="b-text">국세청 사업자 상태조회 (업체 심사)</text>
+    <text x="1164" y="598" class="b-mute">worker가 모아 DB에 캐시 · 인증키는 서버에만</text>
+  </g>
+  <g class="node">
+    <rect x="1150" y="640" width="410" height="100" rx="8" class="box-plan"/>
+    <text x="1164" y="666" class="b-title">알림 (권장)</text>
+    <text x="1164" y="690" class="b-text">카카오 알림톡 · 문자</text>
+    <text x="1164" y="712" class="b-text">worker가 보내고, 실패하면 다시 시도</text>
+  </g>
+  <g class="node">
+    <rect x="1150" y="760" width="410" height="100" rx="8" class="box-plan"/>
+    <text x="1164" y="786" class="b-title">관측 (권장 · 연결선 생략)</text>
+    <text x="1164" y="810" class="b-text">Sentry: api · worker · web 오류</text>
+    <text x="1164" y="832" class="b-text">Langfuse: 에이전트 실행 추적</text>
+  </g>
+  <g class="node">
+    <rect x="1150" y="880" width="410" height="100" rx="8" class="box-plan"/>
+    <text x="1164" y="906" class="b-title">배포 (권장)</text>
+    <text x="1164" y="930" class="b-text">GitHub Actions: 검사 · 이미지 빌드</text>
+    <text x="1164" y="952" class="b-text">GHCR에 올림 → EC2가 받아서 띄움</text>
+  </g>
+
+  <!-- 바깥으로 나가는 연결선 -->
+  <path d="M1068 375 H1148" class="ln" marker-end="url(#ah)"/>
+  <path d="M1068 470 H1148" class="ln" marker-end="url(#ah)"/>
+  <path d="M1068 535 H1115 V690 H1148" class="ln-plan" marker-end="url(#ah-p)"/>
+  <path d="M670 340 V316 H1115 V210 H1148" class="ln-plan" marker-end="url(#ah-p)"/>
+  <path d="M1148 950 H1075 V712" class="ln-plan" marker-end="url(#ah-p)"/>
+  <text x="1068" y="940" class="a-label" text-anchor="end">이미지 받기 (pull)</text>
+
+  <!-- 사용자 → Caddy -->
+  <path d="M216 203 H238 V355" class="ln"/>
+  <path d="M216 325 H238" class="ln"/>
+  <path d="M216 447 H238 V355" class="ln"/>
+  <path d="M238 355 H284" class="ln" marker-end="url(#ah)"/>
+
+  <!-- 브라우저 → S3 직접 -->
+  <path d="M120 520 V830 H284" class="ln-plan" marker-end="url(#ah-p)"/>
+  <text x="128" y="690" class="a-label">presigned URL로</text>
+  <text x="128" y="708" class="a-label">직접 올리기·받기</text>
+
+  <!-- 범례 -->
+  <g class="legend">
+    <rect x="20" y="852" width="210" height="148" rx="8" fill="#FFFFFF" stroke="#AEB8C1" stroke-width="1.2"/>
+    <text x="32" y="874" class="b-title" style="font-size:14px">범례</text>
+    <rect x="32" y="885" width="26" height="15" rx="3" class="box"/>
+    <text x="66" y="897" class="b-small">실선: 정해진 구성</text>
+    <rect x="32" y="907" width="26" height="15" rx="3" class="box-plan"/>
+    <text x="66" y="919" class="b-small">점선: 권장 · 아직 없음</text>
+    <rect x="41" y="932" width="8" height="8" class="mk"/>
+    <text x="66" y="941" class="b-small">compose에 지금 있음</text>
+    <path d="M32 958 H58" class="ln" marker-end="url(#ah)"/>
+    <text x="66" y="963" class="b-small">요청 · 호출</text>
+    <path d="M32 980 H58" class="ln-q" marker-end="url(#ah-q)"/>
+    <text x="66" y="985" class="b-small">큐 작업 (넣기 · 꺼냄)</text>
+  </g>
+
+  <!-- 바닥글: 대표 흐름과 개인정보 규칙 -->
+  <text x="250" y="1032" class="b-text">흐름 예 ① 가견적: web → /api/quotes → quote.service → calc → PostgreSQL</text>
+  <text x="250" y="1056" class="b-text">흐름 예 ② 설명: quote.service → Redis 큐 → worker → agent → LLM → 숫자 검산 → quote.service가 저장</text>
+  <text x="1130" y="1032" class="b-text">개인정보: 동·호수·연락처는 실측 확정과</text>
+  <text x="1130" y="1056" class="b-text">고객 동의 뒤 그 업체에만 보임</text>
+</svg>

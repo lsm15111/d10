@@ -1,0 +1,45 @@
+# /api/* 는 FastAPI로(접두어를 떼고), 나머지는 Next.js로 보낸다.
+{
+	servers {
+		# 느린 연결이 서버를 오래 붙잡지 않게. 본문은 20MB 도면을 느린 회선(약 1Mbps)으로 올려도 되게 넉넉히.
+		timeouts {
+			read_header 10s
+			read_body 5m
+			idle 2m
+		}
+	}
+}
+
+{$DOMAIN} {
+	encode zstd gzip
+
+	handle_path /api/* {
+		# API가 받는 가장 큰 본문(도면 20MB + multipart 머리)보다 조금 크게. API도 경로별로 한 번 더 막는다.
+		request_body {
+			max_size 25MB
+		}
+		reverse_proxy api:8000 {
+			# 프로세스가 살아 있는지로 판단한다 (/health/ready는 Redis가 잠깐 없을 때도 실패해서 쓰지 않음)
+			health_uri /health/live
+			health_interval 10s
+			health_timeout 3s
+			lb_try_duration 5s
+			transport http {
+				dial_timeout 3s
+				response_header_timeout 60s
+				# uvicorn --timeout-keep-alive 75초보다 짧게: 서버가 먼저 닫은 연결을 다시 쓰지 않게
+				keepalive 60s
+			}
+		}
+	}
+
+	handle {
+		reverse_proxy web:3000 {
+			lb_try_duration 5s
+			transport http {
+				dial_timeout 3s
+				response_header_timeout 60s
+			}
+		}
+	}
+}

@@ -1,0 +1,647 @@
+<!doctype html><html lang="ko"><head><meta charset="utf-8"><title>믿집 화면설계서</title><style>
+@page { size: 1280px 720px; margin: 0; }
+* { box-sizing: border-box; }
+html, body { margin: 0; padding: 0; background: #e9edf2; }
+body { font-family: "Pretendard", "Noto Sans KR", "Malgun Gothic", sans-serif; color: #172233; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+.page { width: 1280px; height: 720px; position: relative; overflow: hidden; background: #fff; page-break-after: always; break-after: page; margin: 0 auto 16px; }
+@media print { .page { margin: 0; } body { background: #fff; } }
+.top { position: absolute; top: 14px; left: 32px; right: 32px; display: flex; justify-content: flex-end; font-size: 11px; color: #56647a; }
+.foot { position: absolute; bottom: 12px; right: 32px; font-size: 11px; color: #56647a; font-variant-numeric: tabular-nums; }
+.meta { position: absolute; top: 36px; left: 32px; width: 1216px; border-collapse: collapse; font-size: 12.5px; }
+.meta th { background: #3a4659; color: #fff; font-weight: 600; width: 96px; height: 27px; border: 1px solid #3a4659; }
+.meta td { border: 1px solid #b8c4d3; padding: 0 12px; height: 27px; }
+.meta td.v2 { width: 210px; font-variant-numeric: tabular-nums; }
+.body { position: absolute; top: 104px; left: 32px; width: 1216px; height: 584px; display: grid; grid-template-columns: 1fr 300px; gap: 12px; }
+.shot { background: #f1f4f8; border: 1px solid #b8c4d3; display: flex; align-items: center; justify-content: center; overflow: hidden; }
+.frame { position: relative; box-shadow: 0 1px 4px rgba(23,34,51,.18); }
+.frame img { display: block; width: 100%; height: 100%; }
+.mk { position: absolute; width: 22px; height: 22px; border-radius: 50%; background: #1f5fae; color: #fff; font-size: 12px; font-weight: 700; display: flex; align-items: center; justify-content: center; box-shadow: 0 0 0 2px #fff; z-index: 2; font-variant-numeric: tabular-nums; }
+.ol { position: absolute; border: 2px solid rgba(31,95,174,.85); border-radius: 4px; z-index: 1; }
+.desc { border: 1px solid #b8c4d3; display: flex; flex-direction: column; min-height: 0; font-size: 12px; }
+.desc h3 { margin: 0; background: #3a4659; color: #fff; font-size: 12.5px; font-weight: 600; text-align: center; padding: 5px 0; }
+.desc .sid { padding: 5px 10px; border-bottom: 1px solid #b8c4d3; font-variant-numeric: tabular-nums; }
+.items { list-style: none; margin: 0; padding: 0; flex: 1; min-height: 0; overflow: hidden; }
+.items > li { display: grid; grid-template-columns: 26px 1fr; border-bottom: 1px solid #d8e2ee; }
+.items .n { display: flex; align-items: flex-start; justify-content: center; padding-top: 5px; border-right: 1px solid #d8e2ee; font-weight: 700; color: #1f5fae; font-variant-numeric: tabular-nums; }
+.items .c { padding: 4px 8px 5px; line-height: 1.38; }
+.dense .items .c { padding: 3px 8px 4px; line-height: 1.32; font-size: 11.5px; } .dense .items b { font-size: 12px; } .dense .items .n { padding-top: 4px; }
+.items b, .cp b { display: block; font-size: 12.5px; }
+.items ul, .cp ul { margin: 2px 0 0; padding-left: 14px; color: #2c3a4f; }
+.cp { padding: 6px 10px 8px; line-height: 1.45; }
+/* 표지 */
+.cover .logo { position: absolute; top: 44px; left: 60px; font-size: 26px; font-weight: 800; letter-spacing: -0.5px; color: #172233; }
+.cover .team { position: absolute; top: 210px; left: 160px; font-size: 26px; font-weight: 700; }
+.cover .tag { position: absolute; top: 250px; left: 160px; font-size: 16px; font-weight: 600; color: #2c3a4f; }
+.cover .tag::before { content: ""; display: inline-block; width: 14px; height: 14px; border-radius: 50%; background: #2d6cb5; margin-right: 8px; vertical-align: -1px; }
+.cover h1 { position: absolute; top: 300px; left: 156px; margin: 0; font-size: 56px; font-weight: 500; letter-spacing: -1px; color: #2a3343; }
+.cover .band { position: absolute; left: 0; right: 0; bottom: 0; height: 10px; background: linear-gradient(90deg, #2d6cb5, #b9d3f3); }
+/* 목록 · 흐름 */
+.sheet { position: absolute; top: 40px; left: 32px; right: 32px; bottom: 34px; display: flex; flex-direction: column; gap: 10px; }
+.sheet h2 { margin: 0; font-size: 20px; } .sheet .sub { margin: 0; font-size: 12.5px; color: #46546a; }
+.list { width: 100%; border-collapse: collapse; font-size: 12px; }
+.list th { background: #3a4659; color: #fff; font-weight: 600; padding: 6px 8px; text-align: left; border: 1px solid #3a4659; }
+.list td { border: 1px solid #c9d3df; padding: 4px 8px; vertical-align: top; }
+.list td.num, .list td.id { font-variant-numeric: tabular-nums; white-space: nowrap; }
+.list tr.grp td { background: #eaf2fc; font-weight: 700; }
+.legend { display: flex; gap: 18px; flex-wrap: wrap; font-size: 12px; color: #2c3a4f; }
+.legend span::before { content: "●"; color: #1f5fae; margin-right: 5px; }
+</style></head><body>
+<section class="page cover">
+  <div class="logo">믿집</div>
+  <div class="team">SKN34-Final-1Team</div>
+  <div class="tag">믿집: 아파트 도배 · 목공 견적을 공공 기준과 비교하며 업체를 고르는 서비스</div>
+  <h1>믿집 화면설계서</h1>
+  <div class="band"></div>
+</section>
+<section class="page">
+  <div class="top"><span>SKN34-Final-1Team</span></div>
+  <div class="sheet"><h2>버전 기록</h2>
+    <table class="list"><tr><th style="width:90px">버전</th><th style="width:120px">날짜</th><th style="width:200px">작성자</th><th>비고</th></tr><tr><td class="id">v1.0</td><td class="id">2026-10-29</td><td>이성민</td><td>처음 작성 (요구사항 v3.2 기준, 화면 47쪽)</td></tr></table>
+  </div>
+  <div class="foot">2</div>
+</section>
+<section class="page">
+  <div class="top"><span>SKN34-Final-1Team</span></div>
+  <div class="sheet"><h2>화면 목록 (1/3)</h2>
+    <table class="list"><tr><th style="width:96px">화면 ID</th><th style="width:190px">화면명</th><th style="width:190px">URL</th><th style="width:170px">요구사항 ID</th><th>화면 경로</th><th style="width:40px">쪽</th></tr><tr class="grp"><td colspan="6">공통</td></tr><tr><td class="id">SC-01-001</td><td>홈</td><td class="id">/</td><td>FFW-03</td><td>메인</td><td class="num">6</td></tr><tr><td class="id">SC-01-002</td><td>로그인</td><td class="id">/login</td><td>FFW-01, FBF-02</td><td>메인 &gt; 로그인</td><td class="num">7</td></tr><tr><td class="id">SC-01-003</td><td>회원가입</td><td class="id">/signup</td><td>FFW-02</td><td>메인 &gt; 로그인 &gt; 회원가입</td><td class="num">8</td></tr><tr><td class="id">SC-01-004</td><td>계정 메뉴</td><td class="id">/my</td><td>FFW-17</td><td>메인(로그인 o) &gt; 계정 아이콘</td><td class="num">10</td></tr><tr><td class="id">SC-01-005</td><td>자주 묻는 질문</td><td class="id">/faq</td><td>—</td><td>메인 &gt; 자주 묻는 질문</td><td class="num">11</td></tr><tr class="grp"><td colspan="6">견적 받기</td></tr><tr><td class="id">SC-02-001</td><td>견적 받기 · 지역</td><td class="id">/start</td><td>FFW-03</td><td>메인 &gt; 견적 받기 &gt; 1 지역</td><td class="num">12</td></tr><tr><td class="id">SC-02-002</td><td>견적 받기 · 집 종류</td><td class="id">/start</td><td>FFW-03</td><td>메인 &gt; 견적 받기 &gt; 2 집 종류</td><td class="num">13</td></tr><tr><td class="id">SC-02-003</td><td>견적 받기 · 평수</td><td class="id">/start</td><td>FFW-03</td><td>메인 &gt; 견적 받기 &gt; 3 평수 &gt; 정확히 적을게요</td><td class="num">14</td></tr><tr><td class="id">SC-02-004</td><td>견적 받기 · 공사 시기</td><td class="id">/start</td><td>FFW-03</td><td>메인 &gt; 견적 받기 &gt; 4 시기 &gt; 날짜가 정해졌어요</td><td class="num">15</td></tr><tr><td class="id">SC-02-005</td><td>견적 받기 · 집 상태</td><td class="id">/start</td><td>FFW-03</td><td>메인 &gt; 견적 받기 &gt; 5 집 상태</td><td class="num">16</td></tr><tr><td class="id">SC-02-006</td><td>견적 받기 · 예산</td><td class="id">/start</td><td>FFW-03</td><td>메인 &gt; 견적 받기 &gt; 6 예산 (선택)</td><td class="num">17</td></tr><tr><td class="id">SC-02-007</td><td>견적 받기 · 공정</td><td class="id">/start</td><td>FFW-04</td><td>메인 &gt; 견적 받기 &gt; 7 공정</td><td class="num">18</td></tr><tr><td class="id">SC-02-008</td><td>견적 받기 · 도배</td><td class="id">/start</td><td>FFW-04</td><td>메인 &gt; 견적 받기 &gt; 8 도배 공간 · 유형</td><td class="num">19</td></tr><tr><td class="id">SC-02-009</td><td>견적 받기 · 목공</td><td class="id">/start</td><td>FFW-04</td><td>메인 &gt; 견적 받기 &gt; 9 목공 공간 · 항목</td><td class="num">20</td></tr><tr><td class="id">SC-02-010</td><td>견적 받기 · 공간별 사진</td><td class="id">/start</td><td>FFW-03</td><td>메인 &gt; 견적 받기 &gt; 10 공간별 사진 (선택)</td><td class="num">21</td></tr><tr><td class="id">SC-02-011</td><td>견적 받기 · 도면</td><td class="id">/start</td><td>FFW-03</td><td>메인 &gt; 견적 받기 &gt; 11 도면 (선택)</td><td class="num">22</td></tr><tr><td class="id">SC-02-012</td><td>견적 받기 · 확인</td><td class="id">/start</td><td>FFW-03, FFW-04</td><td>메인 &gt; 견적 받기 &gt; 12 확인</td><td class="num">23</td></tr><tr class="grp"><td colspan="6">프로젝트</td></tr></table>
+  </div>
+  <div class="foot">3</div>
+</section>
+<section class="page">
+  <div class="top"><span>SKN34-Final-1Team</span></div>
+  <div class="sheet"><h2>화면 목록 (2/3)</h2>
+    <table class="list"><tr><th style="width:96px">화면 ID</th><th style="width:190px">화면명</th><th style="width:190px">URL</th><th style="width:170px">요구사항 ID</th><th>화면 경로</th><th style="width:40px">쪽</th></tr><tr><td class="id">SC-03-001</td><td>내 프로젝트</td><td class="id">/my</td><td>FFW-18</td><td>메인 &gt; 마이페이지 &gt; 내 프로젝트</td><td class="num">24</td></tr><tr><td class="id">SC-03-002</td><td>프로젝트 진행 현황</td><td class="id">/projects/[id]</td><td>FFW-18</td><td>내 프로젝트 &gt; 프로젝트 보기</td><td class="num">25</td></tr><tr><td class="id">SC-03-003</td><td>진행 현황 (예시)</td><td class="id">/projects/p1</td><td>FFW-18 ~ FFW-21</td><td>내 프로젝트 &gt; 예시 프로젝트 보기</td><td class="num">26</td></tr><tr><td class="id">SC-03-004</td><td>예상 공정표</td><td class="id">/projects/p1/plan</td><td>FAG-01</td><td>프로젝트 &gt; 1 예상 공정표</td><td class="num">27</td></tr><tr><td class="id">SC-03-005</td><td>표준견적서</td><td class="id">/projects/p1/standard</td><td>FFW-05, FBF-04</td><td>프로젝트 &gt; 2 표준견적서</td><td class="num">29</td></tr><tr><td class="id">SC-03-006</td><td>업체 고르기</td><td class="id">/projects/p1/vendors</td><td>FFW-06, FFW-07, FAG-02</td><td>프로젝트 &gt; 3 업체 고르기</td><td class="num">31</td></tr><tr><td class="id">SC-03-007</td><td>업체 상세</td><td class="id">/vendors/v1</td><td>FFW-09</td><td>업체 고르기 &gt; 업체 정보 보기</td><td class="num">33</td></tr><tr><td class="id">SC-03-008</td><td>가견적 요청 확인</td><td class="id">/projects/p1/request</td><td>FFW-10</td><td>업체 고르기 &gt; 요청함에 담기 &gt; 가견적 요청 확인하기</td><td class="num">35</td></tr><tr><td class="id">SC-03-009</td><td>가견적 비교</td><td class="id">/projects/p1/quotes</td><td>FFW-11, FBF-05</td><td>프로젝트 &gt; 4 가견적 비교</td><td class="num">36</td></tr><tr><td class="id">SC-03-010</td><td>실측 견적</td><td class="id">/projects/p1/measure</td><td>FFW-13, FFW-15</td><td>프로젝트 &gt; 5 실측 견적</td><td class="num">38</td></tr><tr><td class="id">SC-03-011</td><td>확정 공정표</td><td class="id">/projects/p1/schedule</td><td>FFW-16</td><td>프로젝트 &gt; 6 확정 공정표</td><td class="num">40</td></tr><tr><td class="id">SC-03-012</td><td>이력</td><td class="id">/projects/p1/history</td><td>FFW-22</td><td>프로젝트 &gt; 이력</td><td class="num">42</td></tr><tr><td class="id">SC-03-013</td><td>내 정보 · 설정</td><td class="id">/account</td><td>FFW-17</td><td>메인 &gt; 마이페이지 &gt; 내 정보 · 설정</td><td class="num">43</td></tr><tr><td class="id">SC-03-014</td><td>회원 탈퇴</td><td class="id">/account/withdraw</td><td>FFW-17</td><td>내 정보 · 설정 &gt; 회원 탈퇴</td><td class="num">44</td></tr><tr class="grp"><td colspan="6">업체</td></tr><tr><td class="id">SC-04-001</td><td>업체 회원가입</td><td class="id">/signup/vendor</td><td>FFV-01</td><td>로그인 &gt; 회원가입 &gt; 업체로 가입하기</td><td class="num">45</td></tr><tr><td class="id">SC-04-002</td><td>업체 홈</td><td class="id">/vendor</td><td>FBF-01</td><td>업체 가입 &gt; 업체 홈</td><td class="num">46</td></tr><tr class="grp"><td colspan="6">관리자</td></tr><tr><td class="id">SC-05-001</td><td>회원관리</td><td class="id">/admin/members</td><td>FAD-01</td><td>관리자 &gt; 회원관리</td><td class="num">49</td></tr><tr><td class="id">SC-05-002</td><td>업체관리</td><td class="id">/admin/vendors</td><td>FAD-03</td><td>관리자 &gt; 업체관리</td><td class="num">50</td></tr></table>
+  </div>
+  <div class="foot">4</div>
+</section>
+<section class="page">
+  <div class="top"><span>SKN34-Final-1Team</span></div>
+  <div class="sheet"><h2>화면 목록 (3/3)</h2>
+    <table class="list"><tr><th style="width:96px">화면 ID</th><th style="width:190px">화면명</th><th style="width:190px">URL</th><th style="width:170px">요구사항 ID</th><th>화면 경로</th><th style="width:40px">쪽</th></tr><tr><td class="id">SC-05-003</td><td>업체 신청 상세</td><td class="id">/admin/vendors/[id]</td><td>FAD-02</td><td>업체관리 &gt; 업체 이름</td><td class="num">51</td></tr></table>
+  </div>
+  <div class="foot">5</div>
+</section>
+<section class="page">
+  <div class="top"><span>SKN34-Final-1Team</span></div>
+  <table class="meta">
+    <tr><th>화면명</th><td>홈</td><th>요구사항 ID</th><td class="v2">FFW-03</td></tr>
+    <tr><th>화면 경로</th><td>메인 <span style="color:#56647a">· /</span></td><th>화면 ID</th><td class="v2">SC-01-001</td></tr>
+  </table>
+  <div class="body">
+    <div class="shot"><div class="frame" style="width:904.0px;height:381.6px"><img src="shots/SC-01-001.jpg" alt="홈 화면"><div class="ol" style="left:82.2px;top:2.9px;width:591.1px;height:41.2px"></div><div class="mk" style="left:66.2px;top:0.0px">1</div><div class="ol" style="left:684.9px;top:4.3px;width:111.0px;height:38.3px"></div><div class="mk" style="left:668.9px;top:0.0px">2</div><div class="ol" style="left:800.2px;top:4.3px;width:71.6px;height:38.3px"></div><div class="mk" style="left:784.2px;top:0.0px">3</div><div class="ol" style="left:32.2px;top:236.0px;width:115.6px;height:47.1px"></div><div class="mk" style="left:16.2px;top:222.0px">4</div><div class="ol" style="left:149.2px;top:236.0px;width:127.1px;height:47.1px"></div><div class="mk" style="left:133.2px;top:222.0px">5</div></div></div>
+    <div class="desc dense"><h3>Description</h3><div class="sid">SC-01-001</div><ol class="items"><li><span class="n">1</span><div class="c"><b>주 메뉴</b><ul><li>고객: 내 프로젝트 · 자주 묻는 질문</li><li>업체: 업체 홈 · 관리자: 회원관리 · 업체관리</li></ul></div></li><li><span class="n">2</span><div class="c"><b>로그인 · 회원가입</b><ul><li>로그인 화면으로 이동 (로그인하면 계정 아이콘으로 바뀜)</li></ul></div></li><li><span class="n">3</span><div class="c"><b>견적 받기</b><ul><li>어느 화면에서든 견적 받기 질문 창을 엶</li><li>업체 · 관리자에게는 보이지 않음</li></ul></div></li><li><span class="n">4</span><div class="c"><b>견적 받기 시작</b><ul><li>견적 받기 질문 창을 엶 (로그인 없이 시작, 만들 때 로그인)</li></ul></div></li><li><span class="n">5</span><div class="c"><b>내 프로젝트 보기</b><ul><li>마이페이지 내 프로젝트로 이동 (로그인 안 했으면 로그인 뒤 돌아옴)</li></ul></div></li></ol><h3>Check Point</h3><div class="cp"><b>이어서 쓰기</b><ul><li>쓰던 견적 요청서가 있으면 아래에 &#x27;이어서 쓰기&#x27; 카드가 나옴</li></ul></div></div>
+  </div>
+  <div class="foot">6</div>
+</section>
+<section class="page">
+  <div class="top"><span>SKN34-Final-1Team</span></div>
+  <table class="meta">
+    <tr><th>화면명</th><td>로그인</td><th>요구사항 ID</th><td class="v2">FFW-01, FBF-02</td></tr>
+    <tr><th>화면 경로</th><td>메인 &gt; 로그인 <span style="color:#56647a">· /login</span></td><th>화면 ID</th><td class="v2">SC-01-002</td></tr>
+  </table>
+  <div class="body">
+    <div class="shot"><div class="frame" style="width:799.4px;height:584.0px"><img src="shots/SC-01-002.jpg" alt="로그인 화면"><div class="ol" style="left:263.7px;top:117.7px;width:272.0px;height:62.6px"></div><div class="mk" style="left:247.7px;top:103.7px">1</div><div class="ol" style="left:263.7px;top:185.9px;width:272.0px;height:62.6px"></div><div class="mk" style="left:247.7px;top:171.9px">2</div><div class="ol" style="left:263.7px;top:254.2px;width:272.0px;height:39.7px"></div><div class="mk" style="left:247.7px;top:240.2px">3</div><div class="ol" style="left:474.5px;top:330.8px;width:61.3px;height:34.6px"></div><div class="mk" style="left:458.5px;top:316.8px">4</div></div></div>
+    <div class="desc"><h3>Description</h3><div class="sid">SC-01-002</div><ol class="items"><li><span class="n">1</span><div class="c"><b>이메일</b><ul><li>가입한 이메일 (대소문자 구분 없음)</li></ul></div></li><li><span class="n">2</span><div class="c"><b>비밀번호</b><ul><li>같은 이메일 · IP로 15분에 10번 틀리면 잠시 막음</li></ul></div></li><li><span class="n">3</span><div class="c"><b>로그인</b><ul><li>권한에 맞는 화면으로 이동</li><li>고객: 원래 보던 화면 · 업체: 업체 홈 · 관리자: 회원관리</li></ul></div></li><li><span class="n">4</span><div class="c"><b>회원가입</b><ul><li>고객 회원가입으로 이동</li></ul></div></li></ol><h3>Check Point</h3><div class="cp"><b>로그인은 하나</b><ul><li>고객 · 업체 · 관리자가 같은 화면에서 로그인</li><li>틀리면 한 문장만 보여 주고 가입 여부는 알리지 않음</li></ul></div></div>
+  </div>
+  <div class="foot">7</div>
+</section>
+<section class="page">
+  <div class="top"><span>SKN34-Final-1Team</span></div>
+  <table class="meta">
+    <tr><th>화면명</th><td>회원가입</td><th>요구사항 ID</th><td class="v2">FFW-02</td></tr>
+    <tr><th>화면 경로</th><td>메인 &gt; 로그인 &gt; 회원가입 <span style="color:#56647a">· /signup</span></td><th>화면 ID</th><td class="v2">SC-01-003</td></tr>
+  </table>
+  <div class="body">
+    <div class="shot"><div class="frame" style="width:701.3px;height:584.0px"><img src="shots/SC-01-003.jpg" alt="회원가입 화면"><div class="ol" style="left:219.6px;top:102.9px;width:262.1px;height:55.6px"></div><div class="mk" style="left:203.6px;top:88.9px">1</div><div class="ol" style="left:219.6px;top:162.7px;width:262.1px;height:55.6px"></div><div class="mk" style="left:203.6px;top:148.7px">2</div><div class="ol" style="left:219.6px;top:222.6px;width:262.1px;height:73.8px"></div><div class="mk" style="left:203.6px;top:208.6px">3</div><div class="ol" style="left:219.6px;top:300.7px;width:262.1px;height:55.6px"></div><div class="mk" style="left:203.6px;top:286.7px">4</div><div class="ol" style="left:219.6px;top:360.6px;width:262.1px;height:110.9px"></div><div class="mk" style="left:203.6px;top:346.6px">5</div><div class="ol" style="left:219.6px;top:475.8px;width:262.1px;height:35.6px"></div><div class="mk" style="left:203.6px;top:461.8px">6</div><div class="ol" style="left:358.9px;top:531.6px;width:63.4px;height:18.0px"></div><div class="mk" style="left:342.9px;top:517.6px">7</div></div></div>
+    <div class="desc dense"><h3>Description</h3><div class="sid">SC-01-003</div><ol class="items"><li><span class="n">1</span><div class="c"><b>이름</b><ul><li>견적 요청에 쓰는 이름</li></ul></div></li><li><span class="n">2</span><div class="c"><b>이메일</b><ul><li>로그인 아이디. 이미 있으면 가입 안 됨</li></ul></div></li><li><span class="n">3</span><div class="c"><b>비밀번호</b><ul><li>칸 아래 안내: 영문, 숫자, 8자 이상</li></ul></div></li><li><span class="n">4</span><div class="c"><b>비밀번호 확인</b><ul><li>위와 같아야 함</li></ul></div></li><li><span class="n">5</span><div class="c"><b>약관 동의</b><ul><li>이용약관 · 개인정보 수집 · 이용 (둘 다 필수)</li></ul></div></li><li><span class="n">6</span><div class="c"><b>가입하기</b><ul><li>가입하고 바로 로그인한 상태로 원래 화면으로 이동</li></ul></div></li><li><span class="n">7</span><div class="c"><b>업체로 가입하기</b><ul><li>업체 회원가입으로 이동</li></ul></div></li></ol><h3>Check Point</h3><div class="cp"><b>고객 회원가입</b><ul><li>가입은 견적 요청 · 진행 상황을 저장할 때만 필요</li></ul></div></div>
+  </div>
+  <div class="foot">8</div>
+</section>
+<section class="page">
+  <div class="top"><span>SKN34-Final-1Team</span></div>
+  <table class="meta">
+    <tr><th>화면명</th><td>회원가입 · 입력 오류</td><th>요구사항 ID</th><td class="v2">FFW-02</td></tr>
+    <tr><th>화면 경로</th><td>메인 &gt; 회원가입 &gt; 빈 칸으로 가입하기 <span style="color:#56647a">· /signup</span></td><th>화면 ID</th><td class="v2">SC-01-003</td></tr>
+  </table>
+  <div class="body">
+    <div class="shot"><div class="frame" style="width:678.8px;height:584.0px"><img src="shots/SC-01-003_2.jpg" alt="회원가입 · 입력 오류 화면"><div class="ol" style="left:212.4px;top:99.5px;width:253.9px;height:71.7px"></div><div class="mk" style="left:196.4px;top:85.5px">1</div></div></div>
+    <div class="desc"><h3>Description</h3><div class="sid">SC-01-003 · 2</div><ol class="items"><li><span class="n">1</span><div class="c"><b>칸 아래 오류</b><ul><li>칸마다 무엇을 고칠지 바로 아래에 보여 줌</li><li>첫 번째로 고칠 칸으로 초점을 옮김</li></ul></div></li></ol><h3>Check Point</h3><div class="cp"><b>입력 오류 표시</b><ul><li>색만으로 알리지 않고 문장으로 알림</li><li>서버 검사 결과(이미 쓰는 이메일 등)도 같은 자리에 보여 줌</li></ul></div></div>
+  </div>
+  <div class="foot">9</div>
+</section>
+<section class="page">
+  <div class="top"><span>SKN34-Final-1Team</span></div>
+  <table class="meta">
+    <tr><th>화면명</th><td>계정 메뉴</td><th>요구사항 ID</th><td class="v2">FFW-17</td></tr>
+    <tr><th>화면 경로</th><td>메인(로그인 o) &gt; 계정 아이콘 <span style="color:#56647a">· /my</span></td><th>화면 ID</th><td class="v2">SC-01-004</td></tr>
+  </table>
+  <div class="body">
+    <div class="shot"><div class="frame" style="width:904.0px;height:454.9px"><img src="shots/SC-01-004.jpg" alt="계정 메뉴 화면"><div class="ol" style="left:833.5px;top:4.3px;width:38.3px;height:38.3px"></div><div class="mk" style="left:817.5px;top:0.0px">1</div><div class="ol" style="left:709.5px;top:143.7px;width:157.2px;height:70.6px"></div><div class="mk" style="left:693.5px;top:129.7px">2</div><div class="ol" style="left:709.5px;top:214.9px;width:157.2px;height:38.3px"></div><div class="mk" style="left:693.5px;top:200.9px">3</div></div></div>
+    <div class="desc"><h3>Description</h3><div class="sid">SC-01-004</div><ol class="items"><li><span class="n">1</span><div class="c"><b>계정 아이콘</b><ul><li>누르면 계정 메뉴가 열림 (Esc · 바깥을 누르면 닫힘)</li></ul></div></li><li><span class="n">2</span><div class="c"><b>마이페이지</b><ul><li>내 프로젝트 · 내 정보 · 설정으로 이동</li></ul></div></li><li><span class="n">3</span><div class="c"><b>로그아웃</b><ul><li>서버 세션을 지우고 홈으로 이동</li></ul></div></li></ol><h3>Check Point</h3><div class="cp"><b>역할별 메뉴</b><ul><li>고객: 마이페이지</li><li>업체: 업체 홈 · 내 정보 · 설정</li><li>관리자: 관리자 화면</li></ul></div></div>
+  </div>
+  <div class="foot">10</div>
+</section>
+<section class="page">
+  <div class="top"><span>SKN34-Final-1Team</span></div>
+  <table class="meta">
+    <tr><th>화면명</th><td>자주 묻는 질문</td><th>요구사항 ID</th><td class="v2">—</td></tr>
+    <tr><th>화면 경로</th><td>메인 &gt; 자주 묻는 질문 <span style="color:#56647a">· /faq</span></td><th>화면 ID</th><td class="v2">SC-01-005</td></tr>
+  </table>
+  <div class="body">
+    <div class="shot"><div class="frame" style="width:799.4px;height:584.0px"><img src="shots/SC-01-005.jpg" alt="자주 묻는 질문 화면"><div class="ol" style="left:146.9px;top:117.7px;width:505.6px;height:34.6px"></div><div class="mk" style="left:130.9px;top:103.7px">1</div><div class="ol" style="left:147.5px;top:156.0px;width:504.3px;height:206.6px"></div><div class="mk" style="left:131.5px;top:142.0px">2</div><div class="ol" style="left:146.9px;top:357.2px;width:395.3px;height:37.1px"></div><div class="mk" style="left:130.9px;top:343.2px">3</div><div class="ol" style="left:146.9px;top:431.2px;width:505.6px;height:34.6px"></div><div class="mk" style="left:130.9px;top:417.2px">4</div></div></div>
+    <div class="desc"><h3>Description</h3><div class="sid">SC-01-005</div><ol class="items"><li><span class="n">1</span><div class="c"><b>질문</b><ul><li>누르면 답이 펼쳐지고 다시 누르면 접힘</li></ul></div></li><li><span class="n">2</span><div class="c"><b>평수별 비용 표</b><ul><li>평수 · 총비용 · 평당 가격 · 예상 기간 (올수리 기준)</li></ul></div></li><li><span class="n">3</span><div class="c"><b>기준</b><ul><li>2025~2026년 수도권 · 반셀프 기준 · 턴키는 30~50% 더</li></ul></div></li><li><span class="n">4</span><div class="c"><b>반셀프와 턴키</b><ul><li>두 방식의 차이와 비용 차이</li></ul></div></li></ol><h3>Check Point</h3><div class="cp"><b>들어오는 곳</b><ul><li>헤더 메뉴 &#x27;자주 묻는 질문&#x27;</li></ul></div></div>
+  </div>
+  <div class="foot">11</div>
+</section>
+<section class="page">
+  <div class="top"><span>SKN34-Final-1Team</span></div>
+  <table class="meta">
+    <tr><th>화면명</th><td>견적 받기 · 지역</td><th>요구사항 ID</th><td class="v2">FFW-03</td></tr>
+    <tr><th>화면 경로</th><td>메인 &gt; 견적 받기 &gt; 1 지역 <span style="color:#56647a">· /start</span></td><th>화면 ID</th><td class="v2">SC-02-001</td></tr>
+  </table>
+  <div class="body">
+    <div class="shot"><div class="frame" style="width:678.8px;height:584.0px"><img src="shots/SC-02-001.jpg" alt="견적 받기 · 지역 화면"><div class="ol" style="left:464.2px;top:2.5px;width:30.2px;height:30.2px"></div><div class="mk" style="left:448.2px;top:0.0px">1</div><div class="ol" style="left:189.8px;top:76.9px;width:299.1px;height:135.6px"></div><div class="mk" style="left:173.8px;top:62.9px">2</div><div class="ol" style="left:189.8px;top:212.0px;width:299.1px;height:224.8px"></div><div class="mk" style="left:173.8px;top:198.0px">3</div><div class="ol" style="left:440.4px;top:545.7px;width:48.6px;height:34.6px"></div><div class="mk" style="left:424.4px;top:531.7px">4</div></div></div>
+    <div class="desc"><h3>Description</h3><div class="sid">SC-02-001</div><ol class="items"><li><span class="n">1</span><div class="c"><b>닫기</b><ul><li>창을 닫음. 답은 브라우저에 저장돼 다시 열면 이어서 씀</li></ul></div></li><li><span class="n">2</span><div class="c"><b>시 · 도</b><ul><li>2026.7 행정구역 개편 반영 (전남광주통합특별시 등)</li></ul></div></li><li><span class="n">3</span><div class="c"><b>시 · 군 · 구</b><ul><li>시 · 도를 고르면 나옴</li></ul></div></li><li><span class="n">4</span><div class="c"><b>다음</b><ul><li>고르기만 해서는 넘어가지 않고 &#x27;다음&#x27;을 눌러야 넘어감</li><li>빠진 답은 문장으로 알리고 그 칸으로 초점을 옮김</li></ul></div></li></ol><h3>Check Point</h3><div class="cp"><b>한 화면에 질문 하나</b><ul><li>헤더 &#x27;견적 받기&#x27;와 홈 &#x27;견적 받기 시작&#x27;이 같은 창을 엶</li><li>로그인 없이 끝까지 답할 수 있음</li><li>창은 주소가 바뀌지 않음 · 같은 질문을 /start에서 한 화면으로도 엶</li><li>창 높이는 화면에 맞추고 안쪽이 스크롤됨 (이 쪽은 펼쳐서 찍음)</li></ul></div></div>
+  </div>
+  <div class="foot">12</div>
+</section>
+<section class="page">
+  <div class="top"><span>SKN34-Final-1Team</span></div>
+  <table class="meta">
+    <tr><th>화면명</th><td>견적 받기 · 집 종류</td><th>요구사항 ID</th><td class="v2">FFW-03</td></tr>
+    <tr><th>화면 경로</th><td>메인 &gt; 견적 받기 &gt; 2 집 종류 <span style="color:#56647a">· /start</span></td><th>화면 ID</th><td class="v2">SC-02-002</td></tr>
+  </table>
+  <div class="body">
+    <div class="shot"><div class="frame" style="width:799.4px;height:584.0px"><img src="shots/SC-02-002.jpg" alt="견적 받기 · 집 종류 화면"><div class="ol" style="left:224.1px;top:149.5px;width:351.2px;height:105.9px"></div><div class="mk" style="left:208.1px;top:135.5px">1</div><div class="ol" style="left:224.1px;top:255.9px;width:174.7px;height:62.6px"></div><div class="mk" style="left:208.1px;top:241.9px">2</div></div></div>
+    <div class="desc"><h3>Description</h3><div class="sid">SC-02-002</div><ol class="items"><li><span class="n">1</span><div class="c"><b>집 종류</b><ul><li>1차 범위는 아파트만. 나머지는 &#x27;준비 중이에요&#x27;로 막아 둠</li></ul></div></li><li><span class="n">2</span><div class="c"><b>준공 연도 (선택)</b><ul><li>4자리 숫자 · 1960년 ~ 올해</li></ul></div></li></ol><h3>Check Point</h3><div class="cp"><b>집 종류</b><ul><li>준공 연도는 공정표 · 견적 참고용</li></ul></div></div>
+  </div>
+  <div class="foot">13</div>
+</section>
+<section class="page">
+  <div class="top"><span>SKN34-Final-1Team</span></div>
+  <table class="meta">
+    <tr><th>화면명</th><td>견적 받기 · 평수</td><th>요구사항 ID</th><td class="v2">FFW-03</td></tr>
+    <tr><th>화면 경로</th><td>메인 &gt; 견적 받기 &gt; 3 평수 &gt; 정확히 적을게요 <span style="color:#56647a">· /start</span></td><th>화면 ID</th><td class="v2">SC-02-003</td></tr>
+  </table>
+  <div class="body">
+    <div class="shot"><div class="frame" style="width:799.4px;height:584.0px"><img src="shots/SC-02-003.jpg" alt="견적 받기 · 평수 화면"><div class="ol" style="left:224.1px;top:149.5px;width:351.2px;height:83.9px"></div><div class="mk" style="left:208.1px;top:135.5px">1</div><div class="ol" style="left:224.1px;top:233.8px;width:351.2px;height:191.8px"></div><div class="mk" style="left:208.1px;top:219.8px">2</div><div class="ol" style="left:224.1px;top:426.2px;width:351.2px;height:41.0px"></div><div class="mk" style="left:208.1px;top:412.2px">3</div></div></div>
+    <div class="desc"><h3>Description</h3><div class="sid">SC-02-003</div><ol class="items"><li><span class="n">1</span><div class="c"><b>평형대</b><ul><li>10평대 ~ 50평 이상 중 대략 고르기</li></ul></div></li><li><span class="n">2</span><div class="c"><b>정확한 면적</b><ul><li>공급면적(평형) · 전용면적(실평수)을 고르고 ㎡로 적음</li><li>소수점 한 자리까지</li></ul></div></li><li><span class="n">3</span><div class="c"><b>발코니 확장</b><ul><li>도배 면적 계산에 더함</li></ul></div></li></ol><h3>Check Point</h3><div class="cp"><b>면적 기준을 함께 저장</b><ul><li>면적은 ㎡와 기준(공급 · 전용)을 같이 저장하고 평은 보여 줄 때만 계산</li></ul></div></div>
+  </div>
+  <div class="foot">14</div>
+</section>
+<section class="page">
+  <div class="top"><span>SKN34-Final-1Team</span></div>
+  <table class="meta">
+    <tr><th>화면명</th><td>견적 받기 · 공사 시기</td><th>요구사항 ID</th><td class="v2">FFW-03</td></tr>
+    <tr><th>화면 경로</th><td>메인 &gt; 견적 받기 &gt; 4 시기 &gt; 날짜가 정해졌어요 <span style="color:#56647a">· /start</span></td><th>화면 ID</th><td class="v2">SC-02-004</td></tr>
+  </table>
+  <div class="body">
+    <div class="shot"><div class="frame" style="width:678.8px;height:584.0px"><img src="shots/SC-02-004.jpg" alt="견적 받기 · 공사 시기 화면"><div class="ol" style="left:189.8px;top:76.9px;width:299.1px;height:45.7px"></div><div class="mk" style="left:173.8px;top:62.9px">1</div><div class="ol" style="left:207.5px;top:125.4px;width:183.4px;height:181.2px"></div><div class="mk" style="left:191.5px;top:111.4px">2</div></div></div>
+    <div class="desc"><h3>Description</h3><div class="sid">SC-02-004</div><ol class="items"><li><span class="n">1</span><div class="c"><b>시기 고르기</b><ul><li>날짜 확정 · 이사 날만 · 1~2달 안 · 아직 몰라요</li></ul></div></li><li><span class="n">2</span><div class="c"><b>달력</b><ul><li>시작하는 날과 끝나는 날을 차례로 누름</li><li>오늘 이전 · 2년 넘는 날은 막음</li></ul></div></li></ol><h3>Check Point</h3><div class="cp"><b>공사 시기</b><ul><li>&#x27;이사하는 날만&#x27;은 날짜 하나</li><li>&#x27;1~2달 안&#x27; · &#x27;아직 몰라요&#x27;는 날짜 없이 넘어감</li></ul></div></div>
+  </div>
+  <div class="foot">15</div>
+</section>
+<section class="page">
+  <div class="top"><span>SKN34-Final-1Team</span></div>
+  <table class="meta">
+    <tr><th>화면명</th><td>견적 받기 · 집 상태</td><th>요구사항 ID</th><td class="v2">FFW-03</td></tr>
+    <tr><th>화면 경로</th><td>메인 &gt; 견적 받기 &gt; 5 집 상태 <span style="color:#56647a">· /start</span></td><th>화면 ID</th><td class="v2">SC-02-005</td></tr>
+  </table>
+  <div class="body">
+    <div class="shot"><div class="frame" style="width:799.4px;height:584.0px"><img src="shots/SC-02-005.jpg" alt="견적 받기 · 집 상태 화면"><div class="ol" style="left:224.1px;top:149.5px;width:351.2px;height:105.9px"></div><div class="mk" style="left:208.1px;top:135.5px">1</div><div class="ol" style="left:224.1px;top:481.1px;width:56.1px;height:39.7px"></div><div class="mk" style="left:208.1px;top:467.1px">2</div></div></div>
+    <div class="desc"><h3>Description</h3><div class="sid">SC-02-005</div><ol class="items"><li><span class="n">1</span><div class="c"><b>집 상태</b><ul><li>살면서 공사 · 빈집</li></ul></div></li><li><span class="n">2</span><div class="c"><b>이전</b><ul><li>앞 질문으로. 답은 그대로 남음</li></ul></div></li></ol><h3>Check Point</h3><div class="cp"><b>집 상태</b><ul><li>살면서 공사하면 예상 공정표의 작업 기간이 늘어남 (짐 있는 집 × 1.25)</li></ul></div></div>
+  </div>
+  <div class="foot">16</div>
+</section>
+<section class="page">
+  <div class="top"><span>SKN34-Final-1Team</span></div>
+  <table class="meta">
+    <tr><th>화면명</th><td>견적 받기 · 예산</td><th>요구사항 ID</th><td class="v2">FFW-03</td></tr>
+    <tr><th>화면 경로</th><td>메인 &gt; 견적 받기 &gt; 6 예산 (선택) <span style="color:#56647a">· /start</span></td><th>화면 ID</th><td class="v2">SC-02-006</td></tr>
+  </table>
+  <div class="body">
+    <div class="shot"><div class="frame" style="width:799.4px;height:584.0px"><img src="shots/SC-02-006.jpg" alt="견적 받기 · 예산 화면"><div class="ol" style="left:224.1px;top:149.5px;width:351.2px;height:124.1px"></div><div class="mk" style="left:208.1px;top:135.5px">1</div><div class="ol" style="left:457.8px;top:481.1px;width:60.9px;height:39.7px"></div><div class="mk" style="left:441.8px;top:467.1px">2</div></div></div>
+    <div class="desc"><h3>Description</h3><div class="sid">SC-02-006</div><ol class="items"><li><span class="n">1</span><div class="c"><b>예산 구간</b><ul><li>300만 원 이하 ~ 1,000만 원 넘게 · 아직 정하지 않았어요</li></ul></div></li><li><span class="n">2</span><div class="c"><b>건너뛰기</b><ul><li>선택 질문이라 답하지 않고 넘어갈 수 있음</li></ul></div></li></ol><h3>Check Point</h3><div class="cp"><b>예산은 안내에만</b><ul><li>업체를 거르는 데 쓰지 않고 표준견적서와 비교해 안내하는 데만 씀</li></ul></div></div>
+  </div>
+  <div class="foot">17</div>
+</section>
+<section class="page">
+  <div class="top"><span>SKN34-Final-1Team</span></div>
+  <table class="meta">
+    <tr><th>화면명</th><td>견적 받기 · 공정</td><th>요구사항 ID</th><td class="v2">FFW-04</td></tr>
+    <tr><th>화면 경로</th><td>메인 &gt; 견적 받기 &gt; 7 공정 <span style="color:#56647a">· /start</span></td><th>화면 ID</th><td class="v2">SC-02-007</td></tr>
+  </table>
+  <div class="body">
+    <div class="shot"><div class="frame" style="width:799.4px;height:584.0px"><img src="shots/SC-02-007.jpg" alt="견적 받기 · 공정 화면"><div class="ol" style="left:224.1px;top:149.5px;width:175.4px;height:52.7px"></div><div class="mk" style="left:208.1px;top:135.5px">1</div><div class="ol" style="left:400.0px;top:149.5px;width:175.4px;height:52.7px"></div><div class="mk" style="left:384.0px;top:135.5px">2</div></div></div>
+    <div class="desc"><h3>Description</h3><div class="sid">SC-02-007</div><ol class="items"><li><span class="n">1</span><div class="c"><b>도배</b><ul><li>벽지 · 천장지</li></ul></div></li><li><span class="n">2</span><div class="c"><b>목공</b><ul><li>몰딩 · 걸레받이 · 문 · 천장</li></ul></div></li></ol><h3>Check Point</h3><div class="cp"><b>1차 범위는 도배 · 목공</b><ul><li>고른 공정에 따라 다음 질문(도배 · 목공 상세)이 생김</li></ul></div></div>
+  </div>
+  <div class="foot">18</div>
+</section>
+<section class="page">
+  <div class="top"><span>SKN34-Final-1Team</span></div>
+  <table class="meta">
+    <tr><th>화면명</th><td>견적 받기 · 도배</td><th>요구사항 ID</th><td class="v2">FFW-04</td></tr>
+    <tr><th>화면 경로</th><td>메인 &gt; 견적 받기 &gt; 8 도배 공간 · 유형 <span style="color:#56647a">· /start</span></td><th>화면 ID</th><td class="v2">SC-02-008</td></tr>
+  </table>
+  <div class="body">
+    <div class="shot"><div class="frame" style="width:799.4px;height:584.0px"><img src="shots/SC-02-008.jpg" alt="견적 받기 · 도배 화면"><div class="ol" style="left:224.1px;top:167.1px;width:351.2px;height:34.6px"></div><div class="mk" style="left:208.1px;top:153.1px">1</div><div class="ol" style="left:224.1px;top:202.2px;width:351.2px;height:82.0px"></div><div class="mk" style="left:208.1px;top:188.2px">2</div><div class="ol" style="left:224.1px;top:284.7px;width:351.2px;height:82.6px"></div><div class="mk" style="left:208.1px;top:270.7px">3</div><div class="ol" style="left:224.1px;top:367.8px;width:351.2px;height:58.7px"></div><div class="mk" style="left:208.1px;top:353.8px">4</div></div></div>
+    <div class="desc"><h3>Description</h3><div class="sid">SC-02-008</div><ol class="items"><li><span class="n">1</span><div class="c"><b>빠른 추가</b><ul><li>방 · 주방 · 거실 · 현관을 바로 넣음 (같은 이름은 번호를 붙임)</li></ul></div></li><li><span class="n">2</span><div class="c"><b>공간 직접 적기</b><ul><li>예: 복도 · 20자까지</li></ul></div></li><li><span class="n">3</span><div class="c"><b>도배할 공간</b><ul><li>넣은 공간 중 도배할 곳을 고름 · X로 공간 빼기</li></ul></div></li><li><span class="n">4</span><div class="c"><b>도배 유형</b><ul><li>저가형 · 기본형 중 하나 (필수)</li></ul></div></li></ol><h3>Check Point</h3><div class="cp"><b>공간은 공정끼리 같이 씀</b><ul><li>도배에서 넣은 공간을 목공에서도 고를 수 있음</li></ul></div></div>
+  </div>
+  <div class="foot">19</div>
+</section>
+<section class="page">
+  <div class="top"><span>SKN34-Final-1Team</span></div>
+  <table class="meta">
+    <tr><th>화면명</th><td>견적 받기 · 목공</td><th>요구사항 ID</th><td class="v2">FFW-04</td></tr>
+    <tr><th>화면 경로</th><td>메인 &gt; 견적 받기 &gt; 9 목공 공간 · 항목 <span style="color:#56647a">· /start</span></td><th>화면 ID</th><td class="v2">SC-02-009</td></tr>
+  </table>
+  <div class="body">
+    <div class="shot"><div class="frame" style="width:678.8px;height:584.0px"><img src="shots/SC-02-009.jpg" alt="견적 받기 · 목공 화면"><div class="ol" style="left:189.8px;top:191.7px;width:299.1px;height:71.0px"></div><div class="mk" style="left:173.8px;top:177.7px">1</div><div class="ol" style="left:189.8px;top:262.2px;width:299.1px;height:105.8px"></div><div class="mk" style="left:173.8px;top:248.2px">2</div></div></div>
+    <div class="desc"><h3>Description</h3><div class="sid">SC-02-009</div><ol class="items"><li><span class="n">1</span><div class="c"><b>목공할 공간</b><ul><li>도배에서 넣은 공간이 그대로 보임</li></ul></div></li><li><span class="n">2</span><div class="c"><b>목공 항목</b><ul><li>천장 몰딩 · 걸레받이 · 방문 교체 · 천장 평탄화 (하나 이상)</li></ul></div></li></ol><h3>Check Point</h3><div class="cp"><b>목공 항목</b><ul><li>항목마다 무엇인지 한 줄 설명을 붙임</li></ul></div></div>
+  </div>
+  <div class="foot">20</div>
+</section>
+<section class="page">
+  <div class="top"><span>SKN34-Final-1Team</span></div>
+  <table class="meta">
+    <tr><th>화면명</th><td>견적 받기 · 공간별 사진</td><th>요구사항 ID</th><td class="v2">FFW-03</td></tr>
+    <tr><th>화면 경로</th><td>메인 &gt; 견적 받기 &gt; 10 공간별 사진 (선택) <span style="color:#56647a">· /start</span></td><th>화면 ID</th><td class="v2">SC-02-010</td></tr>
+  </table>
+  <div class="body">
+    <div class="shot"><div class="frame" style="width:678.8px;height:584.0px"><img src="shots/SC-02-010.jpg" alt="견적 받기 · 공간별 사진 화면"><div class="ol" style="left:189.8px;top:76.9px;width:299.1px;height:31.3px"></div><div class="mk" style="left:173.8px;top:62.9px">1</div><div class="ol" style="left:189.8px;top:107.7px;width:299.1px;height:78.7px"></div><div class="mk" style="left:173.8px;top:93.7px">2</div><div class="ol" style="left:388.3px;top:545.7px;width:52.6px;height:34.6px"></div><div class="mk" style="left:372.3px;top:531.7px">3</div></div></div>
+    <div class="desc"><h3>Description</h3><div class="sid">SC-02-010</div><ol class="items"><li><span class="n">1</span><div class="c"><b>공간 고르기</b><ul><li>고른 공정에 들어간 공간만 · 공간마다 올린 장수</li></ul></div></li><li><span class="n">2</span><div class="c"><b>공간 사진</b><ul><li>여러 장 · 공간마다 10장 · 한 장 10MB까지</li><li>JPG · PNG · WEBP · HEIC</li></ul></div></li><li><span class="n">3</span><div class="c"><b>건너뛰기</b><ul><li>사진 없이 다음 질문(도면)으로</li></ul></div></li></ol><h3>Check Point</h3><div class="cp"><b>사진은 저장 전에 정리</b><ul><li>올릴 때 위치(GPS) · EXIF를 지우고 HEIC는 JPEG로 바꿈</li><li>파일 형식은 이름이 아니라 파일 앞부분으로 확인</li><li>이 쪽은 창 안쪽 스크롤을 펼쳐서 찍음</li></ul></div></div>
+  </div>
+  <div class="foot">21</div>
+</section>
+<section class="page">
+  <div class="top"><span>SKN34-Final-1Team</span></div>
+  <table class="meta">
+    <tr><th>화면명</th><td>견적 받기 · 도면</td><th>요구사항 ID</th><td class="v2">FFW-03</td></tr>
+    <tr><th>화면 경로</th><td>메인 &gt; 견적 받기 &gt; 11 도면 (선택) <span style="color:#56647a">· /start</span></td><th>화면 ID</th><td class="v2">SC-02-011</td></tr>
+  </table>
+  <div class="body">
+    <div class="shot"><div class="frame" style="width:678.8px;height:584.0px"><img src="shots/SC-02-011.jpg" alt="견적 받기 · 도면 화면"><div class="ol" style="left:189.8px;top:76.9px;width:299.1px;height:89.7px"></div><div class="mk" style="left:173.8px;top:62.9px">1</div><div class="ol" style="left:388.3px;top:545.7px;width:52.6px;height:34.6px"></div><div class="mk" style="left:372.3px;top:531.7px">2</div></div></div>
+    <div class="desc"><h3>Description</h3><div class="sid">SC-02-011</div><ol class="items"><li><span class="n">1</span><div class="c"><b>아파트 도면</b><ul><li>사진이나 PDF · 5개 · 하나 20MB까지</li></ul></div></li><li><span class="n">2</span><div class="c"><b>건너뛰기</b><ul><li>도면 없이 확인으로</li></ul></div></li></ol><h3>Check Point</h3><div class="cp"><b>공간 사진과 따로 받음</b><ul><li>공간을 바꿀 때마다 도면 칸이 다시 보이지 않게 질문을 나눔</li></ul></div></div>
+  </div>
+  <div class="foot">22</div>
+</section>
+<section class="page">
+  <div class="top"><span>SKN34-Final-1Team</span></div>
+  <table class="meta">
+    <tr><th>화면명</th><td>견적 받기 · 확인</td><th>요구사항 ID</th><td class="v2">FFW-03, FFW-04</td></tr>
+    <tr><th>화면 경로</th><td>메인 &gt; 견적 받기 &gt; 12 확인 <span style="color:#56647a">· /start</span></td><th>화면 ID</th><td class="v2">SC-02-012</td></tr>
+  </table>
+  <div class="body">
+    <div class="shot"><div class="frame" style="width:799.4px;height:584.0px"><img src="shots/SC-02-012.jpg" alt="견적 받기 · 확인 화면"><div class="ol" style="left:224.1px;top:149.5px;width:351.2px;height:379.1px"></div><div class="mk" style="left:208.1px;top:135.5px">1</div><div class="ol" style="left:508.1px;top:169.6px;width:52.3px;height:34.6px"></div><div class="mk" style="left:492.1px;top:155.6px">2</div><div class="ol" style="left:465.3px;top:481.1px;width:110.0px;height:39.7px"></div><div class="mk" style="left:449.3px;top:467.1px">3</div></div></div>
+    <div class="desc"><h3>Description</h3><div class="sid">SC-02-012</div><ol class="items"><li><span class="n">1</span><div class="c"><b>답 요약</b><ul><li>지역 · 집 · 평수 · 시기 · 집 상태 · 예산 · 공정 · 사진 · 도면</li></ul></div></li><li><span class="n">2</span><div class="c"><b>고치기</b><ul><li>그 질문으로 돌아가 고친 뒤 다시 확인</li></ul></div></li><li><span class="n">3</span><div class="c"><b>프로젝트 만들기</b><ul><li>로그인 확인 → 사진 · 도면 올리기 → 프로젝트 저장 → 진행 현황</li><li>로그인 안 했으면 로그인 뒤 이 화면으로 돌아옴</li></ul></div></li></ol><h3>Check Point</h3><div class="cp"><b>실패해도 답은 남음</b><ul><li>올리다 실패하면 답과 사진이 그대로 남음</li><li>다시 누르면 이미 올린 사진은 다시 올리지 않음</li></ul></div></div>
+  </div>
+  <div class="foot">23</div>
+</section>
+<section class="page">
+  <div class="top"><span>SKN34-Final-1Team</span></div>
+  <table class="meta">
+    <tr><th>화면명</th><td>내 프로젝트</td><th>요구사항 ID</th><td class="v2">FFW-18</td></tr>
+    <tr><th>화면 경로</th><td>메인 &gt; 마이페이지 &gt; 내 프로젝트 <span style="color:#56647a">· /my</span></td><th>화면 ID</th><td class="v2">SC-03-001</td></tr>
+  </table>
+  <div class="body">
+    <div class="shot"><div class="frame" style="width:799.4px;height:584.0px"><img src="shots/SC-03-001.jpg" alt="내 프로젝트 화면"><div class="ol" style="left:138.5px;top:57.3px;width:522.5px;height:34.6px"></div><div class="mk" style="left:122.5px;top:43.3px">1</div><div class="ol" style="left:153.4px;top:219.2px;width:492.7px;height:46.5px"></div><div class="mk" style="left:137.4px;top:205.2px">2</div><div class="ol" style="left:153.4px;top:267.5px;width:93.6px;height:34.6px"></div><div class="mk" style="left:137.4px;top:253.5px">3</div><div class="ol" style="left:247.5px;top:267.5px;width:81.9px;height:34.6px"></div><div class="mk" style="left:231.5px;top:253.5px">4</div><div class="ol" style="left:138.5px;top:457.9px;width:92.8px;height:39.7px"></div><div class="mk" style="left:122.5px;top:443.9px">5</div></div></div>
+    <div class="desc dense"><h3>Description</h3><div class="sid">SC-03-001</div><ol class="items"><li><span class="n">1</span><div class="c"><b>마이페이지 탭</b><ul><li>내 프로젝트 · 내 정보 · 설정</li></ul></div></li><li><span class="n">2</span><div class="c"><b>공정별 상태 한 줄</b><ul><li>내 차례 · 업체 차례 · 일정 확정 중 하나와 할 일 한 문장</li></ul></div></li><li><span class="n">3</span><div class="c"><b>할 일 버튼</b><ul><li>지금 해야 할 일 하나로 바로 이동</li></ul></div></li><li><span class="n">4</span><div class="c"><b>프로젝트 보기</b><ul><li>진행 현황으로 이동</li></ul></div></li><li><span class="n">5</span><div class="c"><b>새 견적 받기</b><ul><li>견적 받기 창을 엶</li></ul></div></li></ol><h3>Check Point</h3><div class="cp"><b>내 프로젝트</b><ul><li>진행 중인 프로젝트를 위에, 끝난 프로젝트는 &#x27;지난 프로젝트&#x27;로 접어 둠</li></ul></div></div>
+  </div>
+  <div class="foot">24</div>
+</section>
+<section class="page">
+  <div class="top"><span>SKN34-Final-1Team</span></div>
+  <table class="meta">
+    <tr><th>화면명</th><td>프로젝트 진행 현황</td><th>요구사항 ID</th><td class="v2">FFW-18</td></tr>
+    <tr><th>화면 경로</th><td>내 프로젝트 &gt; 프로젝트 보기 <span style="color:#56647a">· /projects/[id]</span></td><th>화면 ID</th><td class="v2">SC-03-002</td></tr>
+  </table>
+  <div class="body">
+    <div class="shot"><div class="frame" style="width:799.4px;height:584.0px"><img src="shots/SC-03-002.jpg" alt="프로젝트 진행 현황 화면"><div class="ol" style="left:28.1px;top:77.1px;width:743.1px;height:34.6px"></div><div class="mk" style="left:12.1px;top:63.1px">1</div><div class="ol" style="left:28.1px;top:134.8px;width:530.1px;height:169.8px"></div><div class="mk" style="left:12.1px;top:120.8px">2</div><div class="ol" style="left:28.1px;top:311.6px;width:530.1px;height:214.6px"></div><div class="mk" style="left:12.1px;top:297.6px">3</div><div class="ol" style="left:570.5px;top:134.8px;width:200.8px;height:419.8px"></div><div class="mk" style="left:554.5px;top:120.8px">4</div></div></div>
+    <div class="desc"><h3>Description</h3><div class="sid">SC-03-002</div><ol class="items"><li><span class="n">1</span><div class="c"><b>프로젝트 단계 메뉴</b><ul><li>진행 현황 · 1~6단계 · 이력으로 이동</li><li>지금 볼 수 있는 단계만 눌린다 (아직 연결 전이면 흐리게)</li></ul></div></li><li><span class="n">2</span><div class="c"><b>지금 단계</b><ul><li>지금 상태와 다음에 할 일 · 버튼 하나</li></ul></div></li><li><span class="n">3</span><div class="c"><b>올린 사진 · 도면</b><ul><li>공간별 장수 · 본인 · 관리자만 봄</li></ul></div></li><li><span class="n">4</span><div class="c"><b>기본정보</b><ul><li>견적 받기에서 답한 내용</li></ul></div></li></ol><h3>Check Point</h3><div class="cp"><b>실제 프로젝트</b><ul><li>저장된 답 · 사진을 API에서 읽어 보여 줌</li><li>예상 공정표 · 표준견적서 등 1~6단계는 아직 연결 전이라 흐리게 표시</li></ul></div></div>
+  </div>
+  <div class="foot">25</div>
+</section>
+<section class="page">
+  <div class="top"><span>SKN34-Final-1Team</span></div>
+  <table class="meta">
+    <tr><th>화면명</th><td>진행 현황 (예시)</td><th>요구사항 ID</th><td class="v2">FFW-18 ~ FFW-21</td></tr>
+    <tr><th>화면 경로</th><td>내 프로젝트 &gt; 예시 프로젝트 보기 <span style="color:#56647a">· /projects/p1</span></td><th>화면 ID</th><td class="v2">SC-03-003</td></tr>
+  </table>
+  <div class="body">
+    <div class="shot"><div class="frame" style="width:799.4px;height:584.0px"><img src="shots/SC-03-003.jpg" alt="진행 현황 (예시) 화면"><div class="ol" style="left:28.1px;top:135.5px;width:530.1px;height:169.8px"></div><div class="mk" style="left:12.1px;top:121.5px">1</div><div class="ol" style="left:28.1px;top:312.2px;width:530.1px;height:207.9px"></div><div class="mk" style="left:12.1px;top:298.2px">2</div></div></div>
+    <div class="desc"><h3>Description</h3><div class="sid">SC-03-003</div><ol class="items"><li><span class="n">1</span><div class="c"><b>지금 단계</b><ul><li>상태 설명 · 다음 할 일 버튼</li></ul></div></li><li><span class="n">2</span><div class="c"><b>공정별 진행</b><ul><li>공정마다 가견적 · 실측 · 실측 견적 · 확정 업체 · 공사기간</li></ul></div></li></ol><h3>Check Point</h3><div class="cp"><b>예시 데이터</b><ul><li>업체 · 견적 · 공정표 API를 만들기 전이라 예시 데이터로 그린 화면 (3~6단계 공통)</li></ul></div></div>
+  </div>
+  <div class="foot">26</div>
+</section>
+<section class="page">
+  <div class="top"><span>SKN34-Final-1Team</span></div>
+  <table class="meta">
+    <tr><th>화면명</th><td>예상 공정표</td><th>요구사항 ID</th><td class="v2">FAG-01</td></tr>
+    <tr><th>화면 경로</th><td>프로젝트 &gt; 1 예상 공정표 <span style="color:#56647a">· /projects/p1/plan</span></td><th>화면 ID</th><td class="v2">SC-03-004</td></tr>
+  </table>
+  <div class="body">
+    <div class="shot"><div class="frame" style="width:749.5px;height:584.0px"><img src="shots/SC-03-004.jpg" alt="예상 공정표 화면"><div class="ol" style="left:616.9px;top:39.3px;width:106.4px;height:37.6px"></div><div class="mk" style="left:600.9px;top:25.3px">1</div><div class="ol" style="left:26.8px;top:148.5px;width:695.8px;height:295.5px"></div><div class="mk" style="left:10.8px;top:134.5px">2</div></div></div>
+    <div class="desc"><h3>Description</h3><div class="sid">SC-03-004</div><ol class="items"><li><span class="n">1</span><div class="c"><b>그림 파일로 저장</b><ul><li>공정표를 PNG로 저장</li></ul></div></li><li><span class="n">2</span><div class="c"><b>작업별 예상 일정</b><ul><li>위 줄 월 · 아래 줄 일 · 하루 한 칸</li><li>휴무일(일요일 · 공휴일)은 회색 칸 · 목공 → 도배 순서</li></ul></div></li></ol><h3>Check Point</h3><div class="cp"><b>에이전트 FAG-01</b><ul><li>날짜 · 기간은 계산 엔진이, 순서 설명 · 참고사항은 에이전트가 만듦</li><li>LLM이 실패하면 계산 결과만 보여 주고 &#x27;설명을 만들지 못했어요&#x27;라고 알림</li><li>에이전트가 쓴 글에는 AI 안내 문구를 붙임</li></ul></div></div>
+  </div>
+  <div class="foot">27</div>
+</section>
+<section class="page">
+  <div class="top"><span>SKN34-Final-1Team</span></div>
+  <table class="meta">
+    <tr><th>화면명</th><td>예상 공정표 · 이유와 할 일</td><th>요구사항 ID</th><td class="v2">FAG-01</td></tr>
+    <tr><th>화면 경로</th><td>프로젝트 &gt; 1 예상 공정표 &gt; 아래 <span style="color:#56647a">· /projects/p1/plan</span></td><th>화면 ID</th><td class="v2">SC-03-004</td></tr>
+  </table>
+  <div class="body">
+    <div class="shot"><div class="frame" style="width:799.4px;height:584.0px"><img src="shots/SC-03-004_2.jpg" alt="예상 공정표 · 이유와 할 일 화면"><div class="ol" style="left:28.1px;top:85.8px;width:530.1px;height:197.1px"></div><div class="mk" style="left:12.1px;top:71.8px">1</div><div class="ol" style="left:570.5px;top:85.8px;width:200.8px;height:363.9px"></div><div class="mk" style="left:554.5px;top:71.8px">2</div></div></div>
+    <div class="desc"><h3>Description</h3><div class="sid">SC-03-004 · 2</div><ol class="items"><li><span class="n">1</span><div class="c"><b>이렇게 잡은 이유</b><ul><li>작업마다 기간 근거 (품 ÷ 인원 × 짐 있는 집)</li></ul></div></li><li><span class="n">2</span><div class="c"><b>참고사항 · 할 일</b><ul><li>날짜별 고객 · 업체 할 일 (벽지 고르기, 관리사무소 신고 등)</li></ul></div></li></ol><h3>Check Point</h3><div class="cp"><b>예상 공정표</b><ul><li>실제 일정은 업체 확정 뒤 확정 공정표로 따로 보여 줌</li></ul></div></div>
+  </div>
+  <div class="foot">28</div>
+</section>
+<section class="page">
+  <div class="top"><span>SKN34-Final-1Team</span></div>
+  <table class="meta">
+    <tr><th>화면명</th><td>표준견적서</td><th>요구사항 ID</th><td class="v2">FFW-05, FBF-04</td></tr>
+    <tr><th>화면 경로</th><td>프로젝트 &gt; 2 표준견적서 <span style="color:#56647a">· /projects/p1/standard</span></td><th>화면 ID</th><td class="v2">SC-03-005</td></tr>
+  </table>
+  <div class="body">
+    <div class="shot"><div class="frame" style="width:749.5px;height:584.0px"><img src="shots/SC-03-005.jpg" alt="표준견적서 화면"><div class="ol" style="left:26.2px;top:85.6px;width:697.1px;height:86.5px"></div><div class="mk" style="left:10.2px;top:71.6px">1</div><div class="ol" style="left:26.8px;top:243.6px;width:695.8px;height:292.5px"></div><div class="mk" style="left:10.8px;top:229.6px">2</div></div></div>
+    <div class="desc"><h3>Description</h3><div class="sid">SC-03-005</div><ol class="items"><li><span class="n">1</span><div class="c"><b>기준 금액 요약</b><ul><li>도배 · 목공 · 합계 (부가세 · 일부 자재 제외)</li></ul></div></li><li><span class="n">2</span><div class="c"><b>도배 산출 내역</b><ul><li>항목 · 수량 · 공공 단가 · 금액</li><li>공공 가격이 없는 줄은 &#x27;공공 가격 없음&#x27;</li></ul></div></li></ol><h3>Check Point</h3><div class="cp"><b>업체 견적이 아님</b><ul><li>공공 기준 단가로 믿집이 계산한 참고 금액</li><li>견적을 만든 때의 단가 버전을 고정해 둠</li></ul></div></div>
+  </div>
+  <div class="foot">29</div>
+</section>
+<section class="page">
+  <div class="top"><span>SKN34-Final-1Team</span></div>
+  <table class="meta">
+    <tr><th>화면명</th><td>표준견적서 · 출처</td><th>요구사항 ID</th><td class="v2">FFW-05, FBF-04</td></tr>
+    <tr><th>화면 경로</th><td>프로젝트 &gt; 2 표준견적서 &gt; 아래 <span style="color:#56647a">· /projects/p1/standard</span></td><th>화면 ID</th><td class="v2">SC-03-005</td></tr>
+  </table>
+  <div class="body">
+    <div class="shot"><div class="frame" style="width:799.4px;height:584.0px"><img src="shots/SC-03-005_2.jpg" alt="표준견적서 · 출처 화면"><div class="ol" style="left:28.8px;top:110.7px;width:741.8px;height:245.3px"></div><div class="mk" style="left:12.8px;top:96.7px">1</div><div class="ol" style="left:28.1px;top:366.2px;width:530.1px;height:179.4px"></div><div class="mk" style="left:12.1px;top:352.2px">2</div></div></div>
+    <div class="desc"><h3>Description</h3><div class="sid">SC-03-005 · 2</div><ol class="items"><li><span class="n">1</span><div class="c"><b>목공 산출 내역</b><ul><li>몰딩 · 걸레받이 길이 기준</li></ul></div></li><li><span class="n">2</span><div class="c"><b>데이터 출처와 적용 시점</b><ul><li>공고일 · 적용일 · 수량 산식</li></ul></div></li></ol><h3>Check Point</h3><div class="cp"><b>비교 기준</b><ul><li>가견적 비교 화면에서 같은 줄끼리 비교하는 기준 열이 됨</li><li>자재비 · 철거 · 짐 이동 · 이윤은 넣지 않고 업체 가견적에서 확인</li></ul></div></div>
+  </div>
+  <div class="foot">30</div>
+</section>
+<section class="page">
+  <div class="top"><span>SKN34-Final-1Team</span></div>
+  <table class="meta">
+    <tr><th>화면명</th><td>업체 고르기 · 추천</td><th>요구사항 ID</th><td class="v2">FFW-06, FFW-07, FAG-02</td></tr>
+    <tr><th>화면 경로</th><td>프로젝트 &gt; 3 업체 고르기 <span style="color:#56647a">· /projects/p1/vendors</span></td><th>화면 ID</th><td class="v2">SC-03-006</td></tr>
+  </table>
+  <div class="body">
+    <div class="shot"><div class="frame" style="width:765.4px;height:584.0px"><img src="shots/SC-03-006.jpg" alt="업체 고르기 · 추천 화면"><div class="ol" style="left:26.8px;top:22.1px;width:507.8px;height:35.8px"></div><div class="mk" style="left:10.8px;top:8.1px">1</div><div class="ol" style="left:26.8px;top:64.4px;width:507.8px;height:522.6px"></div><div class="mk" style="left:10.8px;top:50.4px">2</div><div class="ol" style="left:372.7px;top:83.6px;width:147.7px;height:20.9px"></div><div class="mk" style="left:356.7px;top:69.6px">3</div><div class="ol" style="left:414.8px;top:118.4px;width:105.6px;height:33.3px"></div><div class="mk" style="left:398.8px;top:104.4px">4</div><div class="ol" style="left:546.1px;top:22.1px;width:192.5px;height:231.4px"></div><div class="mk" style="left:530.1px;top:8.1px">5</div></div></div>
+    <div class="desc dense"><h3>Description</h3><div class="sid">SC-03-006</div><ol class="items"><li><span class="n">1</span><div class="c"><b>공정 탭</b><ul><li>도배 · 목공 · 담은 업체 수</li></ul></div></li><li><span class="n">2</span><div class="c"><b>추천 3곳</b><ul><li>승인된 업체 중 시공 지역 · 공정 · 일정이 맞는 곳에서 3곳</li></ul></div></li><li><span class="n">3</span><div class="c"><b>믿집이 고른 이유</b><ul><li>추천 이유 · 살펴볼 점</li></ul></div></li><li><span class="n">4</span><div class="c"><b>요청함에 담기</b><ul><li>공정별로 여러 곳을 담음</li></ul></div></li><li><span class="n">5</span><div class="c"><b>견적 요청함</b><ul><li>공정별 담은 업체 · 표준견적 금액 · 요청 확인으로</li></ul></div></li></ol><h3>Check Point</h3><div class="cp"><b>에이전트 FAG-02</b><ul><li>거르기는 SQL, 점수는 계산 엔진, LLM은 상위 후보 중 3곳과 이유만</li><li>후보 밖 업체는 버림</li></ul></div></div>
+  </div>
+  <div class="foot">31</div>
+</section>
+<section class="page">
+  <div class="top"><span>SKN34-Final-1Team</span></div>
+  <table class="meta">
+    <tr><th>화면명</th><td>업체 고르기 · 전체 목록</td><th>요구사항 ID</th><td class="v2">FFW-06, FFW-08</td></tr>
+    <tr><th>화면 경로</th><td>프로젝트 &gt; 3 업체 고르기 &gt; 전체 업체 <span style="color:#56647a">· /projects/p1/vendors</span></td><th>화면 ID</th><td class="v2">SC-03-006</td></tr>
+  </table>
+  <div class="body">
+    <div class="shot"><div class="frame" style="width:799.4px;height:584.0px"><img src="shots/SC-03-006_2.jpg" alt="업체 고르기 · 전체 목록 화면"><div class="ol" style="left:43.1px;top:69.4px;width:362.7px;height:62.6px"></div><div class="mk" style="left:27.1px;top:55.4px">1</div><div class="ol" style="left:407.6px;top:69.4px;width:135.8px;height:62.6px"></div><div class="mk" style="left:391.6px;top:55.4px">2</div><div class="ol" style="left:43.1px;top:135.1px;width:166.4px;height:58.2px"></div><div class="mk" style="left:27.1px;top:121.1px">3</div><div class="ol" style="left:43.1px;top:221.0px;width:500.3px;height:130.2px"></div><div class="mk" style="left:27.1px;top:207.0px">4</div></div></div>
+    <div class="desc"><h3>Description</h3><div class="sid">SC-03-006 · 2</div><ol class="items"><li><span class="n">1</span><div class="c"><b>업체 이름으로 찾기</b><ul><li>이름 일부로 거르기</li></ul></div></li><li><span class="n">2</span><div class="c"><b>정렬</b><ul><li>후기 많은 순 · 평점 높은 순 · 시공 사례 많은 순</li></ul></div></li><li><span class="n">3</span><div class="c"><b>조건 거르기</b><ul><li>우리 동네 시공 · 토요일 작업 · 실내건축공사업 등록</li></ul></div></li><li><span class="n">4</span><div class="c"><b>업체 카드</b><ul><li>믿집 확인 · 업체가 적은 정보 · 믿집 기록을 나눠 보여 줌</li></ul></div></li></ol><h3>Check Point</h3><div class="cp"><b>정보 출처를 나눔</b><ul><li>믿집이 확인한 것과 업체가 적은 것을 섞지 않음</li><li>전화번호는 보여 주지 않음</li></ul></div></div>
+  </div>
+  <div class="foot">32</div>
+</section>
+<section class="page">
+  <div class="top"><span>SKN34-Final-1Team</span></div>
+  <table class="meta">
+    <tr><th>화면명</th><td>업체 상세</td><th>요구사항 ID</th><td class="v2">FFW-09</td></tr>
+    <tr><th>화면 경로</th><td>업체 고르기 &gt; 업체 정보 보기 <span style="color:#56647a">· /vendors/v1</span></td><th>화면 ID</th><td class="v2">SC-03-007</td></tr>
+  </table>
+  <div class="body">
+    <div class="shot"><div class="frame" style="width:734.2px;height:584.0px"><img src="shots/SC-03-007.jpg" alt="업체 상세 화면"><div class="ol" style="left:25.6px;top:158.7px;width:487.4px;height:261.6px"></div><div class="mk" style="left:9.6px;top:144.7px">1</div><div class="ol" style="left:25.6px;top:426.2px;width:487.4px;height:160.8px"></div><div class="mk" style="left:9.6px;top:412.2px">2</div></div></div>
+    <div class="desc"><h3>Description</h3><div class="sid">SC-03-007</div><ol class="items"><li><span class="n">1</span><div class="c"><b>시공 사례</b><ul><li>업체가 올린 사진과 설명 (맨 위)</li></ul></div></li><li><span class="n">2</span><div class="c"><b>업체가 적은 정보</b><ul><li>팀 · 경력 · A/S · 토요일 작업 · 실측비 (믿집이 확인하지 않음)</li></ul></div></li></ol><h3>Check Point</h3><div class="cp"><b>업체 상세</b><ul><li>승인된 업체만 목록 · 상세 · 추천에 나옴</li></ul></div></div>
+  </div>
+  <div class="foot">33</div>
+</section>
+<section class="page">
+  <div class="top"><span>SKN34-Final-1Team</span></div>
+  <table class="meta">
+    <tr><th>화면명</th><td>업체 상세 · 기록</td><th>요구사항 ID</th><td class="v2">FFW-09</td></tr>
+    <tr><th>화면 경로</th><td>업체 고르기 &gt; 업체 정보 보기 &gt; 아래 <span style="color:#56647a">· /vendors/v1</span></td><th>화면 ID</th><td class="v2">SC-03-007</td></tr>
+  </table>
+  <div class="body">
+    <div class="shot"><div class="frame" style="width:799.4px;height:584.0px"><img src="shots/SC-03-007_2.jpg" alt="업체 상세 · 기록 화면"><div class="ol" style="left:28.1px;top:296.6px;width:530.1px;height:154.6px"></div><div class="mk" style="left:12.1px;top:282.6px">1</div><div class="ol" style="left:28.1px;top:458.2px;width:530.1px;height:128.8px"></div><div class="mk" style="left:12.1px;top:444.2px">2</div></div></div>
+    <div class="desc"><h3>Description</h3><div class="sid">SC-03-007 · 2</div><ol class="items"><li><span class="n">1</span><div class="c"><b>믿집 기록</b><ul><li>평점 · 후기 · 응답 시간 · 승인일</li></ul></div></li><li><span class="n">2</span><div class="c"><b>사업자 정보</b><ul><li>평소에는 접어 둠 · 믿집은 거래 당사자가 아님을 안내</li></ul></div></li></ol><h3>Check Point</h3><div class="cp"><b>평점 · 후기</b><ul><li>후기 기능을 만들 때 확정 업체의 고객만 쓰게 함 (지금은 예시 값)</li></ul></div></div>
+  </div>
+  <div class="foot">34</div>
+</section>
+<section class="page">
+  <div class="top"><span>SKN34-Final-1Team</span></div>
+  <table class="meta">
+    <tr><th>화면명</th><td>가견적 요청 확인</td><th>요구사항 ID</th><td class="v2">FFW-10</td></tr>
+    <tr><th>화면 경로</th><td>업체 고르기 &gt; 요청함에 담기 &gt; 가견적 요청 확인하기 <span style="color:#56647a">· /projects/p1/request</span></td><th>화면 ID</th><td class="v2">SC-03-008</td></tr>
+  </table>
+  <div class="body">
+    <div class="shot"><div class="frame" style="width:799.4px;height:584.0px"><img src="shots/SC-03-008.jpg" alt="가견적 요청 확인 화면"><div class="ol" style="left:28.1px;top:201.1px;width:530.1px;height:259.5px"></div><div class="mk" style="left:12.1px;top:187.1px">1</div><div class="ol" style="left:506.9px;top:215.4px;width:36.4px;height:23.6px"></div><div class="mk" style="left:490.9px;top:201.4px">2</div><div class="ol" style="left:570.5px;top:135.5px;width:200.8px;height:238.3px"></div><div class="mk" style="left:554.5px;top:121.5px">3</div><div class="ol" style="left:585.4px;top:320.5px;width:171.0px;height:39.7px"></div><div class="mk" style="left:569.4px;top:306.5px">4</div></div></div>
+    <div class="desc"><h3>Description</h3><div class="sid">SC-03-008</div><ol class="items"><li><span class="n">1</span><div class="c"><b>보내는 조건</b><ul><li>집 · 시기 · 공정 · 사진을 담은 업체 모두에 같은 조건으로 보냄</li></ul></div></li><li><span class="n">2</span><div class="c"><b>고치기</b><ul><li>견적 받기 답을 고침</li></ul></div></li><li><span class="n">3</span><div class="c"><b>받는 업체</b><ul><li>공정별로 담은 업체 · 더 고르기</li></ul></div></li><li><span class="n">4</span><div class="c"><b>가견적 요청</b><ul><li>요청을 보내고 가견적 비교 화면으로</li></ul></div></li></ol><h3>Check Point</h3><div class="cp"><b>같은 조건으로 요청</b><ul><li>이름 · 연락처 · 동 · 호수는 보내지 않음 (실측 요청한 업체에만 보임)</li><li>업체가 제출하면 가견적서가 바로 프로젝트에 등록됨 (FFV-03)</li></ul></div></div>
+  </div>
+  <div class="foot">35</div>
+</section>
+<section class="page">
+  <div class="top"><span>SKN34-Final-1Team</span></div>
+  <table class="meta">
+    <tr><th>화면명</th><td>가견적 비교</td><th>요구사항 ID</th><td class="v2">FFW-11, FBF-05</td></tr>
+    <tr><th>화면 경로</th><td>프로젝트 &gt; 4 가견적 비교 <span style="color:#56647a">· /projects/p1/quotes</span></td><th>화면 ID</th><td class="v2">SC-03-009</td></tr>
+  </table>
+  <div class="body">
+    <div class="shot"><div class="frame" style="width:719.5px;height:584.0px"><img src="shots/SC-03-009.jpg" alt="가견적 비교 화면"><div class="ol" style="left:25.0px;top:20.6px;width:669.4px;height:34.0px"></div><div class="mk" style="left:9.0px;top:6.6px">1</div><div class="ol" style="left:25.0px;top:62.6px;width:669.4px;height:48.3px"></div><div class="mk" style="left:9.0px;top:48.6px">2</div><div class="ol" style="left:25.6px;top:119.6px;width:668.3px;height:467.4px"></div><div class="mk" style="left:9.6px;top:105.6px">3</div></div></div>
+    <div class="desc"><h3>Description</h3><div class="sid">SC-03-009</div><ol class="items"><li><span class="n">1</span><div class="c"><b>공정 탭</b><ul><li>도배 · 목공 · 도착한 가견적 수</li></ul></div></li><li><span class="n">2</span><div class="c"><b>요청 상태</b><ul><li>업체마다 요청일 · 도착일 · 상태</li></ul></div></li><li><span class="n">3</span><div class="c"><b>표준견적서와 비교</b><ul><li>같은 줄끼리 표준견적서 열과 업체 열을 나란히</li><li>포함 · 묶음 · 별도 · 선택 · 실측 후 · 안 함 표시</li></ul></div></li></ol><h3>Check Point</h3><div class="cp"><b>비교 기준</b><ul><li>합계에는 &#x27;포함&#x27;과 &#x27;따로 계산&#x27;만 들어감 (계산 엔진)</li><li>표준견적서는 공공 단가가 있는 줄만 더해 업체 합계와 바로 같지 않음을 안내</li></ul></div></div>
+  </div>
+  <div class="foot">36</div>
+</section>
+<section class="page">
+  <div class="top"><span>SKN34-Final-1Team</span></div>
+  <table class="meta">
+    <tr><th>화면명</th><td>가견적 비교 · 실측 요청</td><th>요구사항 ID</th><td class="v2">FFW-11, FFW-12</td></tr>
+    <tr><th>화면 경로</th><td>프로젝트 &gt; 4 가견적 비교 &gt; 아래 <span style="color:#56647a">· /projects/p1/quotes</span></td><th>화면 ID</th><td class="v2">SC-03-009</td></tr>
+  </table>
+  <div class="body">
+    <div class="shot"><div class="frame" style="width:799.4px;height:584.0px"><img src="shots/SC-03-009_2.jpg" alt="가견적 비교 · 실측 요청 화면"><div class="ol" style="left:28.1px;top:140.5px;width:743.1px;height:252.1px"></div><div class="mk" style="left:12.1px;top:126.5px">1</div><div class="ol" style="left:28.1px;top:402.2px;width:743.1px;height:143.0px"></div><div class="mk" style="left:12.1px;top:388.2px">2</div></div></div>
+    <div class="desc"><h3>Description</h3><div class="sid">SC-03-009 · 2</div><ol class="items"><li><span class="n">1</span><div class="c"><b>업체 가견적서</b><ul><li>포함 상태 6가지의 뜻 · 업체별 전체 가견적서 (부가세 따로)</li></ul></div></li><li><span class="n">2</span><div class="c"><b>실측 요청</b><ul><li>공정마다 한 곳에 실측 요청 (희망일 · 시간대 · 동 · 호수 · 동의)</li></ul></div></li></ol><h3>Check Point</h3><div class="cp"><b>실측 요청</b><ul><li>실측은 공정마다 한 번에 한 곳</li><li>동 · 호수는 업체가 요청을 확인한 뒤에 보임</li></ul></div></div>
+  </div>
+  <div class="foot">37</div>
+</section>
+<section class="page">
+  <div class="top"><span>SKN34-Final-1Team</span></div>
+  <table class="meta">
+    <tr><th>화면명</th><td>실측 견적 · 확정 후</td><th>요구사항 ID</th><td class="v2">FFW-13, FFW-15</td></tr>
+    <tr><th>화면 경로</th><td>프로젝트 &gt; 5 실측 견적 <span style="color:#56647a">· /projects/p1/measure</span></td><th>화면 ID</th><td class="v2">SC-03-010</td></tr>
+  </table>
+  <div class="body">
+    <div class="shot"><div class="frame" style="width:799.4px;height:584.0px"><img src="shots/SC-03-010.jpg" alt="실측 견적 · 확정 후 화면"><div class="ol" style="left:28.1px;top:131.6px;width:743.1px;height:37.1px"></div><div class="mk" style="left:12.1px;top:117.6px">1</div><div class="ol" style="left:43.1px;top:224.4px;width:142.6px;height:21.6px"></div><div class="mk" style="left:27.1px;top:210.4px">2</div><div class="ol" style="left:28.1px;top:299.8px;width:530.1px;height:175.5px"></div><div class="mk" style="left:12.1px;top:285.8px">3</div><div class="ol" style="left:28.1px;top:299.8px;width:530.1px;height:175.5px"></div><div class="mk" style="left:12.1px;top:285.8px">4</div><div class="ol" style="left:570.5px;top:178.3px;width:200.8px;height:200.5px"></div><div class="mk" style="left:554.5px;top:164.3px">5</div></div></div>
+    <div class="desc dense"><h3>Description</h3><div class="sid">SC-03-010</div><ol class="items"><li><span class="n">1</span><div class="c"><b>공정 탭</b><ul><li>도배 · 목공</li></ul></div></li><li><span class="n">2</span><div class="c"><b>실측 견적 금액</b><ul><li>업체가 실측 뒤 낸 금액 · 가견적과 차이</li></ul></div></li><li><span class="n">3</span><div class="c"><b>실측에서 확인한 것</b><ul><li>업체가 현장에서 본 것</li></ul></div></li><li><span class="n">4</span><div class="c"><b>바뀐 줄</b><ul><li>가견적에서 바뀐 줄만 모아 보여 줌</li></ul></div></li><li><span class="n">5</span><div class="c"><b>업체 확정</b><ul><li>확정한 날 · 다음 단계 안내</li></ul></div></li></ol><h3>Check Point</h3><div class="cp"><b>사람이 눌러야 확정</b><ul><li>업체 확정 · 다시 고르기는 고객이 누른 요청으로만 일어남</li></ul></div></div>
+  </div>
+  <div class="foot">38</div>
+</section>
+<section class="page">
+  <div class="top"><span>SKN34-Final-1Team</span></div>
+  <table class="meta">
+    <tr><th>화면명</th><td>실측 견적 · 확정 전</td><th>요구사항 ID</th><td class="v2">FFW-13, FFW-14, FFW-15</td></tr>
+    <tr><th>화면 경로</th><td>프로젝트 &gt; 5 실측 견적 &gt; 확정 전 <span style="color:#56647a">· /projects/p1/measure</span></td><th>화면 ID</th><td class="v2">SC-03-010</td></tr>
+  </table>
+  <div class="body">
+    <div class="shot"><div class="frame" style="width:799.4px;height:584.0px"><img src="shots/SC-03-010_2.jpg" alt="실측 견적 · 확정 전 화면"><div class="ol" style="left:570.5px;top:178.3px;width:200.8px;height:272.4px"></div><div class="mk" style="left:554.5px;top:164.3px">1</div></div></div>
+    <div class="desc"><h3>Description</h3><div class="sid">SC-03-010 · 2</div><ol class="items"><li><span class="n">1</span><div class="c"><b>확정 · 다시 고르기</b><ul><li>이 업체로 확정하거나, 가견적 받은 다른 업체에 실측 요청 · 새 업체에 가견적 요청</li></ul></div></li></ol><h3>Check Point</h3><div class="cp"><b>다시 고르기</b><ul><li>이전 업체는 &#x27;넘김&#x27;으로 남고 이력에 기록됨</li></ul></div></div>
+  </div>
+  <div class="foot">39</div>
+</section>
+<section class="page">
+  <div class="top"><span>SKN34-Final-1Team</span></div>
+  <table class="meta">
+    <tr><th>화면명</th><td>확정 공정표</td><th>요구사항 ID</th><td class="v2">FFW-16</td></tr>
+    <tr><th>화면 경로</th><td>프로젝트 &gt; 6 확정 공정표 <span style="color:#56647a">· /projects/p1/schedule</span></td><th>화면 ID</th><td class="v2">SC-03-011</td></tr>
+  </table>
+  <div class="body">
+    <div class="shot"><div class="frame" style="width:734.2px;height:584.0px"><img src="shots/SC-03-011.jpg" alt="확정 공정표 화면"><div class="ol" style="left:604.2px;top:38.5px;width:104.3px;height:37.0px"></div><div class="mk" style="left:588.2px;top:24.5px">1</div><div class="ol" style="left:26.2px;top:84.4px;width:681.8px;height:128.0px"></div><div class="mk" style="left:10.2px;top:70.4px">2</div><div class="ol" style="left:26.2px;top:221.9px;width:681.8px;height:365.1px"></div><div class="mk" style="left:10.2px;top:207.9px">3</div></div></div>
+    <div class="desc"><h3>Description</h3><div class="sid">SC-03-011</div><ol class="items"><li><span class="n">1</span><div class="c"><b>그림 파일로 저장</b><ul><li>PNG 저장</li></ul></div></li><li><span class="n">2</span><div class="c"><b>공정별 확정 업체 · 공사기간</b><ul><li>공정 · 업체 · 시작일 · 종료 예정일 · 일하는 날</li></ul></div></li><li><span class="n">3</span><div class="c"><b>작업별 확정 일정</b><ul><li>월 · 일 머리줄 · 하루 한 칸</li><li>휴무일은 회색 칸</li></ul></div></li></ol><h3>Check Point</h3><div class="cp"><b>확정 공정표</b><ul><li>확정 업체가 등록한 공사기간으로 계산 엔진이 일정을 만듦</li><li>업체가 공사기간을 고치면 바로 반영</li></ul></div></div>
+  </div>
+  <div class="foot">40</div>
+</section>
+<section class="page">
+  <div class="top"><span>SKN34-Final-1Team</span></div>
+  <table class="meta">
+    <tr><th>화면명</th><td>확정 공정표 · 비교와 할 일</td><th>요구사항 ID</th><td class="v2">FFW-16</td></tr>
+    <tr><th>화면 경로</th><td>프로젝트 &gt; 6 확정 공정표 &gt; 아래 <span style="color:#56647a">· /projects/p1/schedule</span></td><th>화면 ID</th><td class="v2">SC-03-011</td></tr>
+  </table>
+  <div class="body">
+    <div class="shot"><div class="frame" style="width:904.0px;height:513.6px"><img src="shots/SC-03-011_2.jpg" alt="확정 공정표 · 비교와 할 일 화면"><div class="ol" style="left:32.2px;top:271.9px;width:598.7px;height:142.3px"></div><div class="mk" style="left:16.2px;top:257.9px">1</div><div class="ol" style="left:645.5px;top:271.9px;width:226.3px;height:198.0px"></div><div class="mk" style="left:629.5px;top:257.9px">2</div></div></div>
+    <div class="desc"><h3>Description</h3><div class="sid">SC-03-011 · 2</div><ol class="items"><li><span class="n">1</span><div class="c"><b>예상 공정표와 비교</b><ul><li>예상 기간 → 확정 기간</li></ul></div></li><li><span class="n">2</span><div class="c"><b>공사 전에 할 일</b><ul><li>관리사무소 신고 · 엘리베이터 예약 등</li></ul></div></li></ol><h3>Check Point</h3><div class="cp"><b>공사기간 변경</b><ul><li>공사기간은 확정 업체가 고객과 합의해 등록 · 수정</li></ul></div></div>
+  </div>
+  <div class="foot">41</div>
+</section>
+<section class="page">
+  <div class="top"><span>SKN34-Final-1Team</span></div>
+  <table class="meta">
+    <tr><th>화면명</th><td>이력</td><th>요구사항 ID</th><td class="v2">FFW-22</td></tr>
+    <tr><th>화면 경로</th><td>프로젝트 &gt; 이력 <span style="color:#56647a">· /projects/p1/history</span></td><th>화면 ID</th><td class="v2">SC-03-012</td></tr>
+  </table>
+  <div class="body">
+    <div class="shot"><div class="frame" style="width:799.4px;height:584.0px"><img src="shots/SC-03-012.jpg" alt="이력 화면"><div class="ol" style="left:138.5px;top:203.7px;width:522.5px;height:37.1px"></div><div class="mk" style="left:122.5px;top:189.7px">1</div><div class="ol" style="left:138.5px;top:250.5px;width:522.5px;height:336.5px"></div><div class="mk" style="left:122.5px;top:236.5px">2</div></div></div>
+    <div class="desc"><h3>Description</h3><div class="sid">SC-03-012</div><ol class="items"><li><span class="n">1</span><div class="c"><b>공정으로 거르기</b><ul><li>전체 · 도배 · 목공</li></ul></div></li><li><span class="n">2</span><div class="c"><b>날짜별 기록</b><ul><li>요청 · 도착 · 실측 · 확정 · 공사기간 등록</li></ul></div></li></ol><h3>Check Point</h3><div class="cp"><b>이력</b><ul><li>상태가 바뀔 때마다 같은 트랜잭션에 기록을 남김</li></ul></div></div>
+  </div>
+  <div class="foot">42</div>
+</section>
+<section class="page">
+  <div class="top"><span>SKN34-Final-1Team</span></div>
+  <table class="meta">
+    <tr><th>화면명</th><td>내 정보 · 설정</td><th>요구사항 ID</th><td class="v2">FFW-17</td></tr>
+    <tr><th>화면 경로</th><td>메인 &gt; 마이페이지 &gt; 내 정보 · 설정 <span style="color:#56647a">· /account</span></td><th>화면 ID</th><td class="v2">SC-03-013</td></tr>
+  </table>
+  <div class="body">
+    <div class="shot"><div class="frame" style="width:799.4px;height:584.0px"><img src="shots/SC-03-013.jpg" alt="내 정보 · 설정 화면"><div class="ol" style="left:185.8px;top:193.0px;width:313.6px;height:62.6px"></div><div class="mk" style="left:169.8px;top:179.0px">1</div><div class="ol" style="left:185.8px;top:324.3px;width:313.6px;height:39.7px"></div><div class="mk" style="left:169.8px;top:310.3px">2</div><div class="ol" style="left:170.9px;top:396.3px;width:343.4px;height:119.2px"></div><div class="mk" style="left:154.9px;top:382.3px">3</div></div></div>
+    <div class="desc"><h3>Description</h3><div class="sid">SC-03-013</div><ol class="items"><li><span class="n">1</span><div class="c"><b>이름</b><ul><li>고칠 수 있음</li></ul></div></li><li><span class="n">2</span><div class="c"><b>저장</b><ul><li>바꾼 이름을 저장</li></ul></div></li><li><span class="n">3</span><div class="c"><b>회원 탈퇴</b><ul><li>탈퇴 화면으로 이동</li></ul></div></li></ol><h3>Check Point</h3><div class="cp"><b>내 정보</b><ul><li>이메일은 로그인 아이디라 바꾸지 않음</li><li>업체 회원도 같은 화면을 씀</li></ul></div></div>
+  </div>
+  <div class="foot">43</div>
+</section>
+<section class="page">
+  <div class="top"><span>SKN34-Final-1Team</span></div>
+  <table class="meta">
+    <tr><th>화면명</th><td>회원 탈퇴</td><th>요구사항 ID</th><td class="v2">FFW-17</td></tr>
+    <tr><th>화면 경로</th><td>내 정보 · 설정 &gt; 회원 탈퇴 <span style="color:#56647a">· /account/withdraw</span></td><th>화면 ID</th><td class="v2">SC-03-014</td></tr>
+  </table>
+  <div class="body">
+    <div class="shot"><div class="frame" style="width:799.4px;height:584.0px"><img src="shots/SC-03-014.jpg" alt="회원 탈퇴 화면"><div class="ol" style="left:250.7px;top:342.0px;width:298.0px;height:62.6px"></div><div class="mk" style="left:234.7px;top:328.0px">1</div><div class="ol" style="left:250.7px;top:407.7px;width:298.0px;height:39.7px"></div><div class="mk" style="left:234.7px;top:393.7px">2</div></div></div>
+    <div class="desc"><h3>Description</h3><div class="sid">SC-03-014</div><ol class="items"><li><span class="n">1</span><div class="c"><b>비밀번호 확인</b><ul><li>본인 확인 (틀리면 탈퇴 안 됨)</li></ul></div></li><li><span class="n">2</span><div class="c"><b>탈퇴</b><ul><li>DB 기록과 디스크 파일을 지우고 홈으로 (&#x27;탈퇴했어요&#x27; 안내)</li></ul></div></li></ol><h3>Check Point</h3><div class="cp"><b>회원 탈퇴</b><ul><li>회원 정보 · 프로젝트 · 사진 · 도면 · 로그인 기록을 바로 지움 (되살릴 수 없음)</li><li>진행 중인 프로젝트가 있어도 탈퇴 가능</li><li>관리자 계정은 탈퇴 화면으로 지울 수 없음</li></ul></div></div>
+  </div>
+  <div class="foot">44</div>
+</section>
+<section class="page">
+  <div class="top"><span>SKN34-Final-1Team</span></div>
+  <table class="meta">
+    <tr><th>화면명</th><td>업체 회원가입</td><th>요구사항 ID</th><td class="v2">FFV-01</td></tr>
+    <tr><th>화면 경로</th><td>로그인 &gt; 회원가입 &gt; 업체로 가입하기 <span style="color:#56647a">· /signup/vendor</span></td><th>화면 ID</th><td class="v2">SC-04-001</td></tr>
+  </table>
+  <div class="body">
+    <div class="shot"><div class="frame" style="width:631.1px;height:584.0px"><img src="shots/SC-04-001.jpg" alt="업체 회원가입 화면"><div class="ol" style="left:197.3px;top:123.2px;width:236.5px;height:50.7px"></div><div class="mk" style="left:181.3px;top:109.2px">1</div><div class="ol" style="left:197.3px;top:177.1px;width:236.5px;height:67.1px"></div><div class="mk" style="left:181.3px;top:163.1px">2</div><div class="ol" style="left:197.3px;top:247.4px;width:236.5px;height:67.1px"></div><div class="mk" style="left:181.3px;top:233.4px">3</div><div class="ol" style="left:197.3px;top:371.5px;width:236.5px;height:73.6px"></div><div class="mk" style="left:181.3px;top:357.5px">4</div><div class="ol" style="left:197.3px;top:448.4px;width:236.5px;height:100.5px"></div><div class="mk" style="left:181.3px;top:434.4px">5</div><div class="ol" style="left:197.3px;top:552.1px;width:236.5px;height:32.6px"></div><div class="mk" style="left:181.3px;top:538.1px">6</div></div></div>
+    <div class="desc dense"><h3>Description</h3><div class="sid">SC-04-001</div><ol class="items"><li><span class="n">1</span><div class="c"><b>담당자 이름</b><ul><li>업체 담당자</li></ul></div></li><li><span class="n">2</span><div class="c"><b>이메일</b><ul><li>로그인 아이디</li></ul></div></li><li><span class="n">3</span><div class="c"><b>비밀번호</b><ul><li>칸 아래 안내: 영문, 숫자, 8자 이상</li></ul></div></li><li><span class="n">4</span><div class="c"><b>사업자등록증</b><ul><li>끌어다 놓거나 눌러서 고름 (도면 칸과 같은 영역)</li><li>JPG · PNG · PDF · 관리자와 그 업체만 봄</li></ul></div></li><li><span class="n">5</span><div class="c"><b>약관 동의</b><ul><li>이용약관 · 개인정보 (필수)</li></ul></div></li><li><span class="n">6</span><div class="c"><b>가입 신청하기</b><ul><li>가입 → 업체 홈 &#x27;승인 대기&#x27;로 이동</li></ul></div></li></ol><h3>Check Point</h3><div class="cp"><b>사업자등록증만 받음</b><ul><li>상호 · 시공 지역 등 업체 정보는 승인 뒤 업체 정보 관리(FFV-08)에서 받음</li></ul></div></div>
+  </div>
+  <div class="foot">45</div>
+</section>
+<section class="page">
+  <div class="top"><span>SKN34-Final-1Team</span></div>
+  <table class="meta">
+    <tr><th>화면명</th><td>업체 홈 · 승인 대기</td><th>요구사항 ID</th><td class="v2">FBF-01</td></tr>
+    <tr><th>화면 경로</th><td>업체 가입 &gt; 업체 홈 <span style="color:#56647a">· /vendor</span></td><th>화면 ID</th><td class="v2">SC-04-002</td></tr>
+  </table>
+  <div class="body">
+    <div class="shot"><div class="frame" style="width:904.0px;height:454.9px"><img src="shots/SC-04-002.jpg" alt="업체 홈 · 승인 대기 화면"><div class="ol" style="left:193.6px;top:168.0px;width:516.7px;height:93.5px"></div><div class="mk" style="left:177.6px;top:154.0px">1</div></div></div>
+    <div class="desc"><h3>Description</h3><div class="sid">SC-04-002</div><ol class="items"><li><span class="n">1</span><div class="c"><b>승인 상태</b><ul><li>승인 대기 · 승인 · 반려 중 지금 상태를 보여 줌</li></ul></div></li></ol><h3>Check Point</h3><div class="cp"><b>승인 상태</b><ul><li>승인 대기 · 승인 · 반려 중 하나를 보여 줌</li><li>승인 전에는 견적 요청을 받지 않음</li></ul></div></div>
+  </div>
+  <div class="foot">46</div>
+</section>
+<section class="page">
+  <div class="top"><span>SKN34-Final-1Team</span></div>
+  <table class="meta">
+    <tr><th>화면명</th><td>업체 홈 · 반려</td><th>요구사항 ID</th><td class="v2">FBF-01</td></tr>
+    <tr><th>화면 경로</th><td>업체 홈 (반려됨) <span style="color:#56647a">· /vendor</span></td><th>화면 ID</th><td class="v2">SC-04-002</td></tr>
+  </table>
+  <div class="body">
+    <div class="shot"><div class="frame" style="width:904.0px;height:454.9px"><img src="shots/SC-04-002_2.jpg" alt="업체 홈 · 반려 화면"><div class="ol" style="left:210.5px;top:220.1px;width:482.9px;height:45.9px"></div><div class="mk" style="left:194.5px;top:206.1px">1</div><div class="ol" style="left:210.5px;top:300.5px;width:85.7px;height:44.2px"></div><div class="mk" style="left:194.5px;top:286.5px">2</div></div></div>
+    <div class="desc"><h3>Description</h3><div class="sid">SC-04-002 · 2</div><ol class="items"><li><span class="n">1</span><div class="c"><b>반려 사유</b><ul><li>관리자가 적은 사유를 그대로 보여 줌</li></ul></div></li><li><span class="n">2</span><div class="c"><b>탈퇴하기</b><ul><li>탈퇴한 뒤 새 사업자등록증으로 다시 가입</li></ul></div></li></ol><h3>Check Point</h3><div class="cp"><b>반려</b><ul><li>반려는 사유가 꼭 있어야 함 (빈 사유는 서버가 거절)</li></ul></div></div>
+  </div>
+  <div class="foot">47</div>
+</section>
+<section class="page">
+  <div class="top"><span>SKN34-Final-1Team</span></div>
+  <table class="meta">
+    <tr><th>화면명</th><td>업체 홈 · 승인</td><th>요구사항 ID</th><td class="v2">FBF-01, FBF-02</td></tr>
+    <tr><th>화면 경로</th><td>업체 홈 (승인됨) <span style="color:#56647a">· /vendor</span></td><th>화면 ID</th><td class="v2">SC-04-002</td></tr>
+  </table>
+  <div class="body">
+    <div class="shot"><div class="frame" style="width:904.0px;height:454.9px"><img src="shots/SC-04-002_3.jpg" alt="업체 홈 · 승인 화면"><div class="ol" style="left:193.6px;top:168.0px;width:516.7px;height:94.9px"></div><div class="mk" style="left:177.6px;top:154.0px">1</div></div></div>
+    <div class="desc"><h3>Description</h3><div class="sid">SC-04-002 · 3</div><ol class="items"><li><span class="n">1</span><div class="c"><b>승인 상태</b><ul><li>승인되면 업체 기능이 열림</li></ul></div></li></ol><h3>Check Point</h3><div class="cp"><b>다음에 열리는 화면</b><ul><li>견적 요청함 · 가견적서 쓰기 · 실측 요청 · 실측 견적서 · 공사기간 등록 · 업체 정보 관리 (FFV-02 ~ 08)</li></ul></div></div>
+  </div>
+  <div class="foot">48</div>
+</section>
+<section class="page">
+  <div class="top"><span>SKN34-Final-1Team</span></div>
+  <table class="meta">
+    <tr><th>화면명</th><td>회원관리</td><th>요구사항 ID</th><td class="v2">FAD-01</td></tr>
+    <tr><th>화면 경로</th><td>관리자 &gt; 회원관리 <span style="color:#56647a">· /admin/members</span></td><th>화면 ID</th><td class="v2">SC-05-001</td></tr>
+  </table>
+  <div class="body">
+    <div class="shot"><div class="frame" style="width:799.4px;height:584.0px"><img src="shots/SC-05-001.jpg" alt="회원관리 화면"><div class="ol" style="left:28.1px;top:125.6px;width:605.6px;height:62.6px"></div><div class="mk" style="left:12.1px;top:111.6px">1</div><div class="ol" style="left:635.5px;top:125.6px;width:135.8px;height:62.6px"></div><div class="mk" style="left:619.5px;top:111.6px">2</div><div class="ol" style="left:28.8px;top:216.6px;width:741.8px;height:370.4px"></div><div class="mk" style="left:12.8px;top:202.6px">3</div><div class="ol" style="left:648.5px;top:256.8px;width:64.0px;height:34.6px"></div><div class="mk" style="left:632.5px;top:242.8px">4</div></div></div>
+    <div class="desc"><h3>Description</h3><div class="sid">SC-05-001</div><ol class="items"><li><span class="n">1</span><div class="c"><b>찾기</b><ul><li>이름 · 이메일 일부로 거르기</li></ul></div></li><li><span class="n">2</span><div class="c"><b>계정 상태</b><ul><li>전체 · 사용 중 · 정지</li></ul></div></li><li><span class="n">3</span><div class="c"><b>회원 목록</b><ul><li>이름 · 이메일 · 가입일 · 프로젝트 수 · 상태</li></ul></div></li><li><span class="n">4</span><div class="c"><b>계정 정지</b><ul><li>정지 · 정지 풀기</li></ul></div></li></ol><h3>Check Point</h3><div class="cp"><b>예시 데이터</b><ul><li>회원 목록 API를 만들기 전이라 예시 데이터로 그린 화면</li></ul></div></div>
+  </div>
+  <div class="foot">49</div>
+</section>
+<section class="page">
+  <div class="top"><span>SKN34-Final-1Team</span></div>
+  <table class="meta">
+    <tr><th>화면명</th><td>업체관리</td><th>요구사항 ID</th><td class="v2">FAD-03</td></tr>
+    <tr><th>화면 경로</th><td>관리자 &gt; 업체관리 <span style="color:#56647a">· /admin/vendors</span></td><th>화면 ID</th><td class="v2">SC-05-002</td></tr>
+  </table>
+  <div class="body">
+    <div class="shot"><div class="frame" style="width:904.0px;height:469.6px"><img src="shots/SC-05-002.jpg" alt="업체관리 화면"><div class="ol" style="left:32.2px;top:142.4px;width:839.6px;height:38.3px"></div><div class="mk" style="left:16.2px;top:128.4px">1</div><div class="ol" style="left:33.0px;top:193.1px;width:838.1px;height:100.9px"></div><div class="mk" style="left:17.0px;top:179.1px">2</div><div class="ol" style="left:558.5px;top:239.3px;width:29.0px;height:24.3px"></div><div class="mk" style="left:542.5px;top:225.3px">3</div><div class="ol" style="left:670.3px;top:238.5px;width:189.0px;height:38.3px"></div><div class="mk" style="left:654.3px;top:224.5px">4</div></div></div>
+    <div class="desc"><h3>Description</h3><div class="sid">SC-05-002</div><ol class="items"><li><span class="n">1</span><div class="c"><b>상태 탭</b><ul><li>승인 대기 · 승인 · 반려 · 전체</li></ul></div></li><li><span class="n">2</span><div class="c"><b>업체 가입 신청 목록</b><ul><li>담당자 · 이메일 · 신청일 · 상태</li></ul></div></li><li><span class="n">3</span><div class="c"><b>사업자등록증</b><ul><li>새 창에서 보기</li></ul></div></li><li><span class="n">4</span><div class="c"><b>처리</b><ul><li>승인 · 반려 (반려는 사유 필수)</li></ul></div></li></ol><h3>Check Point</h3><div class="cp"><b>업체 승인</b><ul><li>승인한 업체만 업체 기능을 쓰고 목록 · 추천에 나옴</li><li>두 관리자가 동시에 처리하면 한 명만 성공 (409)</li></ul></div></div>
+  </div>
+  <div class="foot">50</div>
+</section>
+<section class="page">
+  <div class="top"><span>SKN34-Final-1Team</span></div>
+  <table class="meta">
+    <tr><th>화면명</th><td>업체 신청 상세</td><th>요구사항 ID</th><td class="v2">FAD-02</td></tr>
+    <tr><th>화면 경로</th><td>업체관리 &gt; 업체 이름 <span style="color:#56647a">· /admin/vendors/[id]</span></td><th>화면 ID</th><td class="v2">SC-05-003</td></tr>
+  </table>
+  <div class="body">
+    <div class="shot"><div class="frame" style="width:799.4px;height:584.0px"><img src="shots/SC-05-003.jpg" alt="업체 신청 상세 화면"><div class="ol" style="left:138.5px;top:137.3px;width:522.5px;height:145.2px"></div><div class="mk" style="left:122.5px;top:123.3px">1</div><div class="ol" style="left:138.5px;top:292.1px;width:522.5px;height:134.8px"></div><div class="mk" style="left:122.5px;top:278.1px">2</div><div class="ol" style="left:138.5px;top:436.5px;width:522.5px;height:89.4px"></div><div class="mk" style="left:122.5px;top:422.5px">3</div></div></div>
+    <div class="desc"><h3>Description</h3><div class="sid">SC-05-003</div><ol class="items"><li><span class="n">1</span><div class="c"><b>신청 정보</b><ul><li>담당자 · 이메일 · 신청일 · 상태</li></ul></div></li><li><span class="n">2</span><div class="c"><b>사업자등록증</b><ul><li>미리보기 · 새 창에서 보기 (관리자와 그 업체만)</li></ul></div></li><li><span class="n">3</span><div class="c"><b>처리</b><ul><li>승인 · 반려</li></ul></div></li></ol><h3>Check Point</h3><div class="cp"><b>확인할 것</b><ul><li>상호 · 대표자 · 사업자등록번호 · 개업일</li></ul></div></div>
+  </div>
+  <div class="foot">51</div>
+</section>
+<section class="page">
+  <div class="top"><span>SKN34-Final-1Team</span></div>
+  <table class="meta">
+    <tr><th>화면명</th><td>업체 신청 상세 · 반려 사유</td><th>요구사항 ID</th><td class="v2">FAD-02</td></tr>
+    <tr><th>화면 경로</th><td>업체관리 &gt; 업체 이름 &gt; 반려 <span style="color:#56647a">· /admin/vendors/[id]</span></td><th>화면 ID</th><td class="v2">SC-05-003</td></tr>
+  </table>
+  <div class="body">
+    <div class="shot"><div class="frame" style="width:904.0px;height:513.6px"><img src="shots/SC-05-003_2.jpg" alt="업체 신청 상세 · 반려 사유 화면"><div class="ol" style="left:173.8px;top:346.1px;width:556.3px;height:108.1px"></div><div class="mk" style="left:157.8px;top:332.1px">1</div><div class="ol" style="left:173.8px;top:415.9px;width:68.5px;height:38.3px"></div><div class="mk" style="left:157.8px;top:401.9px">2</div><div class="ol" style="left:243.7px;top:415.9px;width:68.5px;height:38.3px"></div><div class="mk" style="left:227.7px;top:401.9px">3</div></div></div>
+    <div class="desc"><h3>Description</h3><div class="sid">SC-05-003 · 2</div><ol class="items"><li><span class="n">1</span><div class="c"><b>반려 사유</b><ul><li>300자까지 · 업체 홈에 그대로 보임</li></ul></div></li><li><span class="n">2</span><div class="c"><b>반려하기</b><ul><li>사유가 비면 &#x27;반려 사유를 적어 주세요&#x27;</li></ul></div></li><li><span class="n">3</span><div class="c"><b>그만두기</b><ul><li>사유 칸을 닫음</li></ul></div></li></ol><h3>Check Point</h3><div class="cp"><b>반려</b><ul><li>빈 반려 사유는 DB 제약으로도 막음</li></ul></div></div>
+  </div>
+  <div class="foot">52</div>
+</section></body></html>

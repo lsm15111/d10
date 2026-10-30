@@ -1,0 +1,121 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1640" height="870" viewBox="0 0 1640 870" font-family="'Noto Sans KR', 'Malgun Gothic', 'Apple SD Gothic Neo', sans-serif" style="background:#FAFAF8">
+<title>믿집 시스템 구성도</title>
+<desc>EC2 한 대의 Docker Compose(Caddy · Next.js · FastAPI · Redis · worker), RDS PostgreSQL · S3 · SES, GitHub Actions → ECR · SSM 배포, CloudWatch 감시, 외부 OpenAI · 공공데이터 API.</desc>
+<style>
+.t-title { font-size: 26px; font-weight: 700; fill: #1B2127; }
+.t-sub { font-size: 15px; fill: #5A6772; }
+.g-label { font-size: 15px; font-weight: 700; fill: #33414D; }
+.b-title { font-size: 16px; font-weight: 700; fill: #1B2127; }
+.s-title { font-size: 14px; font-weight: 700; fill: #1B2127; }
+.b-text { font-size: 14px; fill: #2B353E; }
+.b-small { font-size: 13px; fill: #2B353E; }
+.b-mute { font-size: 12.5px; fill: #5A6772; }
+.a-label { font-size: 12.5px; fill: #4A5762; }
+.bd-t { font-size: 12px; font-weight: 700; }
+.grp { fill: #F4F5F3; stroke: #C9D0D6; stroke-width: 1.2; }
+.box { fill: #FFFFFF; stroke: #2F3B45; stroke-width: 1.5; }
+.box-core { fill: #EEF6F2; stroke: #1E6B55; stroke-width: 1.8; }
+.box-data { fill: #EEF2F8; stroke: #33507A; stroke-width: 1.8; }
+.box-ai { fill: #FFF6EC; stroke: #B5651D; stroke-width: 1.8; }
+.box-sub { fill: #FFFFFF; stroke: #9AABC0; stroke-width: 1.1; }
+.box-ext { fill: #FFFFFF; stroke: #6B5E45; stroke-width: 1.5; }
+.box-off { fill: #FFFFFF; stroke: #B23B2E; stroke-width: 1.5; stroke-dasharray: 7 5; }
+.box-dash { fill: #FFFFFF; stroke: #5A6772; stroke-width: 1.4; stroke-dasharray: 7 5; }
+.ar { stroke: #2F3B45; stroke-width: 1.6; fill: none; marker-end: url(#ah); }
+.ar-q { stroke: #B5651D; stroke-width: 1.6; fill: none; marker-end: url(#ahq); }
+.ar-d { stroke: #5A6772; stroke-width: 1.4; fill: none; stroke-dasharray: 6 4; marker-end: url(#ah); }
+</style>
+<defs><marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#2F3B45"/></marker><marker id="ahq" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#B5651D"/></marker></defs>
+<rect width="1640" height="870" fill="#FAFAF8"/>
+<text x="32" y="44" class="t-title">믿집 시스템 구성도</text>
+<circle cx="90" cy="350" r="34" fill="#FFFFFF" stroke="#2D6CB5" stroke-width="2.5"/><circle cx="90" cy="341" r="10" fill="none" stroke="#2D6CB5" stroke-width="2.5"/><path d="M71 371 a19 16 0 0 1 38 0" fill="none" stroke="#2D6CB5" stroke-width="2.5"/>
+<text x="90" y="410" class="s-title" text-anchor="middle">사용자</text>
+<text x="90" y="430" class="b-mute" text-anchor="middle">고객 · 업체 · 관리자</text>
+<rect x="170" y="100" width="1080" height="740" rx="6" fill="none" stroke="#232F3E" stroke-width="1.8"/>
+<path d="M170 106 a6 6 0 0 1 6 -6 h1068 a6 6 0 0 1 6 6 v24 h-1080 z" fill="#232F3E"/>
+<text x="184" y="121" font-size="14" font-weight="700" fill="#FFFFFF">AWS · 서울 리전</text>
+<rect x="200" y="150" width="1000" height="330" rx="6" fill="none" stroke="#C7511F" stroke-width="1.8"/>
+<path d="M200 156 a6 6 0 0 1 6 -6 h988 a6 6 0 0 1 6 6 v24 h-1000 z" fill="#C7511F"/>
+<text x="214" y="171" font-size="14" font-weight="700" fill="#FFFFFF">EC2 · t4g.small</text>
+<rect x="228" y="196" width="944" height="264" rx="6" fill="none" stroke="#1D63ED" stroke-width="1.8"/>
+<path d="M228 202 a6 6 0 0 1 6 -6 h932 a6 6 0 0 1 6 6 v24 h-944 z" fill="#1D63ED"/>
+<text x="242" y="217" font-size="14" font-weight="700" fill="#FFFFFF">Docker Compose</text>
+<rect x="240" y="300" width="150" height="96" rx="10" fill="#FFFFFF" stroke="#2F3B45" stroke-width="1.5"/>
+<rect x="254" y="314" width="28" height="28" rx="7" fill="#1E6B55"/><path d="M263 327 v-3 a5 5 0 0 1 10 0 v3" fill="none" stroke="#fff" stroke-width="2"/><rect x="261" y="327" width="14" height="10" rx="2" fill="#fff"/>
+<text x="292" y="333" class="s-title">Caddy</text>
+<text x="254" y="368" class="b-mute">HTTPS · 프록시</text>
+<rect x="430" y="300" width="140" height="96" rx="10" fill="#FFFFFF" stroke="#2F3B45" stroke-width="1.5"/>
+<circle cx="458" cy="328" r="14" fill="#111"/><text x="458" y="333.5" font-size="15" font-weight="800" fill="#fff" text-anchor="middle">N</text>
+<text x="482" y="333" class="s-title">Next.js</text>
+<text x="444" y="368" class="b-mute">화면</text>
+<rect x="610" y="300" width="160" height="96" rx="10" fill="#FFFFFF" stroke="#2F3B45" stroke-width="1.5"/>
+<circle cx="638" cy="328" r="14" fill="#05998B"/><path d="M640 318 L632 330 H638 L636 338 L644 326 H638 Z" fill="#fff"/>
+<text x="662" y="333" class="s-title">FastAPI</text>
+<text x="624" y="368" class="b-mute">API · 계산 엔진</text>
+<rect x="810" y="300" width="140" height="96" rx="10" fill="#FFFFFF" stroke="#2F3B45" stroke-width="1.5"/>
+<path d="M826 336 L838 331 L850 336 L838 341 Z" fill="#C8372D" stroke="#fff" stroke-width="1"/><path d="M826 329 L838 324 L850 329 L838 334 Z" fill="#C8372D" stroke="#fff" stroke-width="1"/><path d="M826 322 L838 317 L850 322 L838 327 Z" fill="#C8372D" stroke="#fff" stroke-width="1"/>
+<text x="862" y="333" class="s-title">Redis</text>
+<text x="824" y="368" class="b-mute">큐 · 요청 제한</text>
+<rect x="990" y="300" width="170" height="96" rx="10" fill="#FFFFFF" stroke="#2F3B45" stroke-width="1.5"/>
+<rect x="1015.5" y="314" width="5" height="7" rx="1" fill="#B5651D" transform="rotate(0 1018 328)"/><rect x="1015.5" y="314" width="5" height="7" rx="1" fill="#B5651D" transform="rotate(45 1018 328)"/><rect x="1015.5" y="314" width="5" height="7" rx="1" fill="#B5651D" transform="rotate(90 1018 328)"/><rect x="1015.5" y="314" width="5" height="7" rx="1" fill="#B5651D" transform="rotate(135 1018 328)"/><rect x="1015.5" y="314" width="5" height="7" rx="1" fill="#B5651D" transform="rotate(180 1018 328)"/><rect x="1015.5" y="314" width="5" height="7" rx="1" fill="#B5651D" transform="rotate(225 1018 328)"/><rect x="1015.5" y="314" width="5" height="7" rx="1" fill="#B5651D" transform="rotate(270 1018 328)"/><rect x="1015.5" y="314" width="5" height="7" rx="1" fill="#B5651D" transform="rotate(315 1018 328)"/><circle cx="1018" cy="328" r="9" fill="#B5651D"/><circle cx="1018" cy="328" r="3.5" fill="#fff"/>
+<text x="1042" y="333" class="s-title">worker</text>
+<text x="1004" y="368" class="b-mute">에이전트 · 수집 · 메일</text>
+<path d="M 126 350 L 237 350" fill="none" stroke="#2D6CB5" stroke-width="1.6" marker-start="url(#ah)" marker-end="url(#ah)"/>
+<path d="M 390 340 L 427 340" fill="none" stroke="#2F3B45" stroke-width="1.6" marker-end="url(#ah)"/>
+<text x="409" y="332" font-size="12.5" fill="#4A5762" text-anchor="middle">/</text>
+<path d="M 315 300 L 315 256 L 690 256 L 690 297" fill="none" stroke="#2F3B45" stroke-width="1.6" marker-end="url(#ah)"/>
+<text x="502" y="250" font-size="12.5" fill="#4A5762" text-anchor="middle">/api</text>
+<path d="M 570 368 L 607 368" fill="none" stroke="#2F3B45" stroke-width="1.6" marker-end="url(#ah)"/>
+<text x="589" y="360" font-size="12.5" fill="#4A5762" text-anchor="middle">읽기</text>
+<path d="M 770 340 L 807 340" fill="none" stroke="#2F3B45" stroke-width="1.6" marker-end="url(#ah)"/>
+<text x="789" y="332" font-size="12.5" fill="#4A5762" text-anchor="middle">큐</text>
+<path d="M 950 340 L 987 340" fill="none" stroke="#2F3B45" stroke-width="1.6" marker-end="url(#ah)"/>
+<text x="969" y="332" font-size="12.5" fill="#4A5762" text-anchor="middle">작업</text>
+<rect x="420" y="540" width="180" height="96" rx="10" fill="#FFFFFF" stroke="#2F3B45" stroke-width="1.5"/>
+<path d="M437 560 h22 l-3 18 h-16 z" fill="#3F8624"/><ellipse cx="448" cy="560" rx="11" ry="3.5" fill="#7DBB57"/>
+<text x="472" y="573" class="s-title">S3</text>
+<text x="434" y="608" class="b-mute">사진 · 도면</text>
+<rect x="640" y="540" width="250" height="96" rx="10" fill="#FFFFFF" stroke="#2F3B45" stroke-width="1.5"/>
+<path d="M657 560 v16 a11 4.5 0 0 0 22 0 v-16" fill="#2F5DA8"/><ellipse cx="668" cy="560" rx="11" ry="4.5" fill="#8FB0DA" stroke="#2F5DA8" stroke-width="1.5"/><path d="M657 568 a11 4.5 0 0 0 22 0" fill="none" stroke="#fff" stroke-width="1.2"/>
+<text x="692" y="573" class="s-title">RDS PostgreSQL</text>
+<text x="654" y="608" class="b-mute">데이터 · pgvector</text>
+<rect x="1016" y="540" width="150" height="96" rx="10" fill="#FFFFFF" stroke="#2F3B45" stroke-width="1.5"/>
+<rect x="1031" y="559" width="26" height="18" rx="3" fill="#DD344C"/><path d="M1033 562 l11 8 l11 -8" fill="none" stroke="#fff" stroke-width="2"/>
+<text x="1068" y="573" class="s-title">SES</text>
+<text x="1030" y="608" class="b-mute">메일 알림</text>
+<path d="M 700 396 L 700 537" fill="none" stroke="#2F3B45" stroke-width="1.6" marker-end="url(#ah)"/>
+<text x="708" y="510" font-size="12.5" fill="#4A5762">SQL</text>
+<path d="M 1010 396 L 1010 432 L 840 432 L 840 537" fill="none" stroke="#2F3B45" stroke-width="1.6" marker-end="url(#ah)"/>
+<text x="925" y="426" font-size="12.5" fill="#4A5762" text-anchor="middle">저장</text>
+<path d="M 630 396 L 630 432 L 510 432 L 510 537" fill="none" stroke="#2F3B45" stroke-width="1.6" marker-end="url(#ah)"/>
+<text x="570" y="426" font-size="12.5" fill="#4A5762" text-anchor="middle">파일</text>
+<path d="M 1120 396 L 1120 537" fill="none" stroke="#2F3B45" stroke-width="1.6" marker-end="url(#ah)"/>
+<text x="1128" y="510" font-size="12.5" fill="#4A5762">메일</text>
+<rect x="420" y="690" width="300" height="96" rx="10" fill="#FFFFFF" stroke="#2F3B45" stroke-width="1.5"/>
+<rect x="434" y="704" width="28" height="28" rx="7" fill="#E7157B"/><path d="M438 719 h5 l3 -6 l4 12 l3 -6 h5" fill="none" stroke="#fff" stroke-width="2" stroke-linejoin="round"/>
+<text x="472" y="723" class="s-title">CloudWatch</text>
+<text x="434" y="758" class="b-mute">로그 · 지표 · 알람</text>
+<rect x="760" y="690" width="406" height="96" rx="10" fill="#FFFFFF" stroke="#2F3B45" stroke-width="1.5"/>
+<rect x="774" y="704" width="28" height="28" rx="7" fill="#ED7100"/><rect x="779" y="709" width="8" height="8" rx="1.5" fill="#fff"/><rect x="789" y="709" width="8" height="8" rx="1.5" fill="#fff"/><rect x="779" y="719" width="8" height="8" rx="1.5" fill="#fff"/><rect x="789" y="719" width="8" height="8" rx="1.5" fill="#fff"/>
+<text x="812" y="723" class="s-title">ECR · SSM</text>
+<text x="774" y="758" class="b-mute">이미지 · 배포 명령 · 비밀값</text>
+<path d="M 620 480 L 620 687" fill="none" stroke="#2F3B45" stroke-width="1.6" marker-end="url(#ah)"/>
+<text x="628" y="668" font-size="12.5" fill="#4A5762">로그</text>
+<path d="M 950 690 L 950 483" fill="none" stroke="#2F3B45" stroke-width="1.6" marker-end="url(#ah)"/>
+<text x="958" y="668" font-size="12.5" fill="#4A5762">배포</text>
+<rect x="1290" y="150" width="320" height="96" rx="10" fill="#FFFFFF" stroke="#2F3B45" stroke-width="1.5"/>
+<circle cx="1318" cy="178" r="14" fill="#24292F"/><path d="M1312 178.5 l4 4 l8 -9" fill="none" stroke="#fff" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/>
+<text x="1342" y="183" class="s-title">GitHub Actions</text>
+<text x="1304" y="218" class="b-mute">CI · 이미지 빌드 · 배포</text>
+<rect x="1290" y="290" width="320" height="96" rx="10" fill="#FFFFFF" stroke="#2F3B45" stroke-width="1.5"/>
+<circle cx="1318" cy="318" r="14" fill="#6B4FBB"/><path d="M1318 309 Q1319.5 316.5 1327 318 Q1319.5 319.5 1318 327 Q1316.5 319.5 1309 318 Q1316.5 316.5 1318 309 Z" fill="#fff"/>
+<text x="1342" y="323" class="s-title">OpenAI API</text>
+<text x="1304" y="358" class="b-mute">설명 · 추천 · 임베딩</text>
+<rect x="1290" y="430" width="320" height="96" rx="10" fill="#FFFFFF" stroke="#2F3B45" stroke-width="1.5"/>
+<path d="M1306 454 L1318 447 L1330 454 Z" fill="#46546A"/><rect x="1308" y="456" width="3" height="10" fill="#46546A"/><rect x="1314" y="456" width="3" height="10" fill="#46546A"/><rect x="1320" y="456" width="3" height="10" fill="#46546A"/><rect x="1326" y="456" width="3" height="10" fill="#46546A"/><rect x="1306" y="467" width="24" height="3" fill="#46546A"/>
+<text x="1342" y="463" class="s-title">공공데이터 API</text>
+<text x="1304" y="498" class="b-mute">건축HUB · 조달청 · 공휴일</text>
+<path d="M 1160 330 L 1287 330" fill="none" stroke="#2F3B45" stroke-width="1.6" marker-end="url(#ah)"/>
+<path d="M 1160 375 L 1236 375 L 1236 475 L 1287 475" fill="none" stroke="#2F3B45" stroke-width="1.6" marker-end="url(#ah)"/>
+<path d="M 1610 195 L 1626 195 L 1626 738 L 1169 738" fill="none" stroke="#2F3B45" stroke-width="1.6" marker-end="url(#ah)"/>
+</svg>

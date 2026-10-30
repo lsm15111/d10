@@ -1,0 +1,40 @@
+# EC2 운영용: docker compose -f compose.yaml -f compose.prod.yaml up -d
+# 밖으로 여는 포트는 Caddy의 80·443뿐이다. Caddy가 HTTPS 인증서를 자동으로 받는다.
+services:
+  caddy:
+    image: caddy:2.10-alpine
+    ports:
+      - "80:80"
+      - "443:443"
+    environment:
+      DOMAIN: ${DOMAIN:?DOMAIN을 .env에 넣어 주세요}
+    volumes:
+      - ./infra/caddy/Caddyfile:/etc/caddy/Caddyfile:ro
+      - caddy-data:/data
+      - caddy-config:/config
+    depends_on:
+      - web
+      - api
+    restart: unless-stopped
+
+  db:
+    restart: unless-stopped
+  redis:
+    restart: unless-stopped
+  api:
+    stop_grace_period: 30s  # uvicorn이 하던 요청을 마칠 시간 (Dockerfile의 20초보다 길게)
+    environment:
+      APP_ENV: production
+      API_ROOT_PATH: /api
+      ALLOWED_ORIGINS: https://${DOMAIN:?DOMAIN을 .env에 넣어 주세요}
+    restart: unless-stopped
+  worker:
+    environment:
+      APP_ENV: production
+    restart: unless-stopped
+  web:
+    restart: unless-stopped
+
+volumes:
+  caddy-data:
+  caddy-config:
